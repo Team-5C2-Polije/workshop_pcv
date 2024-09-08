@@ -207,6 +207,9 @@ class MenuColor:
         # Konversi hasil ke format uint8 (gambar 8-bit)
         log_transformed = np.array(log_transformed, dtype=np.uint8)
 
+        # Simpan gambar hasil log brightness
+        cv2.imwrite(MenuColor.outputFile, log_transformed)
+
         # Tampilkan gambar asli dan gambar setelah log brightness
         plt.figure(figsize=(10, 4))
 
@@ -221,4 +224,6 @@ class MenuColor:
         plt.axis('off')
 
         plt.show()
+
+        return MenuColor.outputFile
 
