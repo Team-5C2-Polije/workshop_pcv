@@ -1,12 +1,15 @@
 from PIL import Image
 import os
+import subprocess
 import numpy as np
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QMessageBox, QAction, QApplication, QMainWindow
 from logic.menu_file import MenuFile
 from logic.menu_color import MenuColor
+from logic.menu_image_proc import MenuImageProc
 from dialog_tentang import Ui_DialogAbout
 from dialog_factor_linear import Ui_DialogFactorLinear
+
 
 class Ui_MainWindow(object):
 
@@ -28,7 +31,7 @@ class Ui_MainWindow(object):
         self.imageOutput.setGeometry(QtCore.QRect(671, 20, 631, 541))
         self.imageOutput.setObjectName("imageOutput")
         self.toolStripLabel = QtWidgets.QLabel(self.centralwidget)
-        self.toolStripLabel.setGeometry(QtCore.QRect(20, 580, 1281, 49))
+        self.toolStripLabel.setGeometry(QtCore.QRect(20, 609, 1151, 20))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -38,9 +41,28 @@ class Ui_MainWindow(object):
         font.setPointSize(9)
         self.toolStripLabel.setFont(font)
         self.toolStripLabel.setObjectName("toolStripLabel")
+        self.btnOpenImage = QtWidgets.QPushButton(self.centralwidget)
+        self.btnOpenImage.setGeometry(QtCore.QRect(1180, 580, 111, 41))
+        font = QtGui.QFont()
+        font.setPointSize(9)
+        font.setBold(True)
+        font.setWeight(75)
+        self.btnOpenImage.setFont(font)
+        self.btnOpenImage.setObjectName("btnOpenImage")
+        self.toolStripAction = QtWidgets.QLabel(self.centralwidget)
+        self.toolStripAction.setGeometry(QtCore.QRect(20, 580, 1161, 20))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.toolStripAction.sizePolicy().hasHeightForWidth())
+        self.toolStripAction.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setPointSize(9)
+        self.toolStripAction.setFont(font)
+        self.toolStripAction.setObjectName("toolStripAction")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1322, 31))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1322, 21))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
@@ -56,8 +78,6 @@ class Ui_MainWindow(object):
         self.menuRGB_to_Grayscale.setObjectName("menuRGB_to_Grayscale")
         self.menuLInear = QtWidgets.QMenu(self.menuColors)
         self.menuLInear.setObjectName("menuLInear")
-        self.menuBit_Depth = QtWidgets.QMenu(self.menuColors)
-        self.menuBit_Depth.setObjectName("menuBit_Depth")
         self.menuQuantize = QtWidgets.QMenu(self.menuColors)
         self.menuQuantize.setObjectName("menuQuantize")
         self.menuAbout = QtWidgets.QMenu(self.menubar)
@@ -211,6 +231,14 @@ class Ui_MainWindow(object):
         self.actionLevel_3.setObjectName("actionLevel_3")
         self.actionLevel_4 = QtWidgets.QAction(MainWindow)
         self.actionLevel_4.setObjectName("actionLevel_4")
+        self.actionLevel_5 = QtWidgets.QAction(MainWindow)
+        self.actionLevel_5.setObjectName("actionLevel_5")
+        self.actionLevel_6 = QtWidgets.QAction(MainWindow)
+        self.actionLevel_6.setObjectName("actionLevel_6")
+        self.actionLevel_7 = QtWidgets.QAction(MainWindow)
+        self.actionLevel_7.setObjectName("actionLevel_7")
+        self.actionShow_Histogram_Citra = QtWidgets.QAction(MainWindow)
+        self.actionShow_Histogram_Citra.setObjectName("actionShow_Histogram_Citra")
         self.menuFile.addAction(self.actionOpen)
         self.menuFile.addAction(self.actionSaveAs)
         self.menuFile.addAction(self.actionClearImage)
@@ -232,25 +260,21 @@ class Ui_MainWindow(object):
         self.menuLInear.addAction(self.actionBrightness)
         self.menuLInear.addAction(self.actionConstrast)
         self.menuLInear.addAction(self.actionSaturation)
-        self.menuBit_Depth.addAction(self.action1_bit)
-        self.menuBit_Depth.addAction(self.action2_bit)
-        self.menuBit_Depth.addAction(self.action3_bit)
-        self.menuBit_Depth.addAction(self.action4_bit)
-        self.menuBit_Depth.addAction(self.action5_bit)
-        self.menuBit_Depth.addAction(self.action6_bit)
-        self.menuBit_Depth.addAction(self.action7_bit)
         self.menuQuantize.addAction(self.actionLevel_1)
         self.menuQuantize.addAction(self.actionLevel_2)
         self.menuQuantize.addAction(self.actionLevel_3)
         self.menuQuantize.addAction(self.actionLevel_4)
+        self.menuQuantize.addAction(self.actionLevel_5)
+        self.menuQuantize.addAction(self.actionLevel_6)
+        self.menuQuantize.addAction(self.actionLevel_7)
         self.menuColors.addAction(self.menuRGB.menuAction())
         self.menuColors.addAction(self.menuQuantize.menuAction())
         self.menuColors.addAction(self.menuRGB_to_Grayscale.menuAction())
         self.menuColors.addAction(self.menuLInear.menuAction())
         self.menuColors.addAction(self.actionInvers)
         self.menuColors.addAction(self.actionLog_Brightness)
-        self.menuColors.addAction(self.menuBit_Depth.menuAction())
         self.menuColors.addAction(self.actionGamma_Correction)
+        self.menuHistogram_Equalization.addAction(self.actionShow_Histogram_Citra)
         self.menuHistogram_Equalization.addAction(self.actionHistogram_Equalization)
         self.menuHistogram_Equalization.addAction(self.actionFuzzy_HE_RGB)
         self.menuHistogram_Equalization.addAction(self.actionFuzzy_Grayscale)
@@ -293,15 +317,17 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuMorfologi.menuAction())
 
         # Connect actions to slots
-        self.action(MainWindow)
+        self.action(MainWindow)  
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.toolStripLabel.setText(_translate("MainWindow", "toolStripLabel"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Kelompok C2"))
+        self.toolStripLabel.setText(_translate("MainWindow", "toolStripFile"))
+        self.btnOpenImage.setText(_translate("MainWindow", "Open in Photo"))
+        self.toolStripAction.setText(_translate("MainWindow", "toolStripAction"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuINput.setTitle(_translate("MainWindow", "View"))
         self.menuHIstogram.setTitle(_translate("MainWindow", "HIstogram"))
@@ -309,7 +335,6 @@ class Ui_MainWindow(object):
         self.menuRGB.setTitle(_translate("MainWindow", "RGB"))
         self.menuRGB_to_Grayscale.setTitle(_translate("MainWindow", "RGB to Grayscale"))
         self.menuLInear.setTitle(_translate("MainWindow", "Linear"))
-        self.menuBit_Depth.setTitle(_translate("MainWindow", "Bit Depth"))
         self.menuQuantize.setTitle(_translate("MainWindow", "Quantize"))
         self.menuAbout.setTitle(_translate("MainWindow", "About"))
         self.menuHistogram_Equalization.setTitle(_translate("MainWindow", "Image Processing"))
@@ -384,12 +409,16 @@ class Ui_MainWindow(object):
         self.actionLevel_2.setText(_translate("MainWindow", "Level 2"))
         self.actionLevel_3.setText(_translate("MainWindow", "Level 3"))
         self.actionLevel_4.setText(_translate("MainWindow", "Level 4"))
+        self.actionLevel_5.setText(_translate("MainWindow", "Level 5"))
+        self.actionLevel_6.setText(_translate("MainWindow", "Level 6"))
+        self.actionLevel_7.setText(_translate("MainWindow", "Level 7"))
+        self.actionShow_Histogram_Citra.setText(_translate("MainWindow", "Show Histogram Citra"))
 
+    # semua aksi pada window
     def action(self, MainWindow):
         self.actionOpen.triggered.connect(self.openFile)
         self.actionClose.triggered.connect(MainWindow.close)
         self.actionClearImage.triggered.connect(self.clearImage)
-        self.menuAbout.triggered.connect(self.showAboutDialog)
         self.actionAverage.triggered.connect(self.grayscale_average)
         self.actionLightness.triggered.connect(self.grayscale_lightness)
         self.actionLuminance.triggered.connect(self.grayscale_luminance)
@@ -397,26 +426,38 @@ class Ui_MainWindow(object):
         self.actionLevel_2.triggered.connect(self.quantize_level_2)
         self.actionLevel_3.triggered.connect(self.quantize_level_3)
         self.actionLevel_4.triggered.connect(self.quantize_level_4)
+        self.actionLevel_5.triggered.connect(self.quantize_level_5)
+        self.actionLevel_6.triggered.connect(self.quantize_level_6)
+        self.actionLevel_7.triggered.connect(self.quantize_level_7)
         self.actionBrightness.triggered.connect(self.linear_brightness)
         self.actionConstrast.triggered.connect(self.linear_contrast)
         self.actionSaturation.triggered.connect(self.linear_saturation)
         self.actionInvers.triggered.connect(self.inverse)
         self.actionLog_Brightness.triggered.connect(self.log_brightness)
         self.actionSaveAs.triggered.connect(self.saveAs)
+        self.btnOpenImage.clicked.connect(self.open_image_in_photo)
+        self.actionShow_Histogram_Citra.triggered.connect(self.histogram_citra)
+        self.actionHistogram_Equalization.triggered.connect(self.histogram_equalization)
+        self.actionFuzzy_HE_RGB.triggered.connect(self.fuzzy_histogram_equalization)
 
-    def showToOutput(self, outputFile):
-        pixmap = QtGui.QPixmap(outputFile)
+    # digunakan untuk menampilkan gambar hasil processing ke output
+    def showToOutput(self, actionName):
+        pixmap = QtGui.QPixmap(self.outputFile)
         scene = QtWidgets.QGraphicsScene()
         scene.addPixmap(pixmap)
+        self.toolStripAction.setText(rf"ACTION : {actionName}")
         self.imageOutput.setScene(scene)
 
+    # digunakan untuk memngambil gambar input
     def openFile(self):
         print('choose image from explorer')
         self.imageInputPath = MenuFile.openFile(self)
         self.imageOutputPath = os.path.dirname(self.imageInputPath)
         self.currentFilename = os.path.basename(self.imageInputPath)
         self.toolStripLabel.setText(rf"IMAGE : {self.imageInputPath}")
+        self.toolStripAction.setText("No Action Selected")
     
+    # digunakan untuk menyimpan hasil output dari processing
     def saveAs(self):
         if not os.path.exists(self.outputFile):
             QMessageBox.warning(None, "Warning", "Output file does not exist.")
@@ -436,77 +477,119 @@ class Ui_MainWindow(object):
             except Exception as e:
                 QMessageBox.critical(None, "Error", f"Failed to save the image: {str(e)}")
 
+    # membersihkan image baik input maupun output
     def clearImage(self):
         MenuFile.clearImage(self)
         self.imageInputPath = ''
         self.toolStripLabel.setText(self.imageInputPath)
+        self.toolStripAction.setText("No Action Selected")
+
+    # membuka gambar hasil processing ke photo
+    def open_image_in_photo(self):
+        image_path = self.outputFile
+        # Cek apakah file gambar ada
+        if os.path.exists(image_path):
+            try:
+                # Membuka gambar dengan aplikasi Photo
+                os.startfile(image_path)
+                print(f"Gambar {image_path} dibuka di Photo.")
+            except Exception as e:
+                print(f"Error saat membuka gambar: {e}")
+        else:
+            print(f"File {image_path} tidak ditemukan.")
 
     def quantize_level_1(self):
         self.outputFile = MenuColor.quantize_color_level(self.imageInputPath, 1)
-        self.showToOutput(self.outputFile)
+        self.showToOutput("Quantize Level 1")
 
     def quantize_level_2(self):
         self.outputFile = MenuColor.quantize_color_level(self.imageInputPath, 2)
-        self.showToOutput(self.outputFile)
+        self.showToOutput("Quantize Level 2")
 
     def quantize_level_3(self):
         self.outputFile = MenuColor.quantize_color_level(self.imageInputPath, 3)
-        self.showToOutput(self.outputFile)
-    
+        self.showToOutput("Quantize Level 3")
+
     def quantize_level_4(self):
         self.outputFile = MenuColor.quantize_color_level(self.imageInputPath, 4)
-        self.showToOutput(self.outputFile)
+        self.showToOutput("Quantize Level 4")
+
+    def quantize_level_5(self):
+        self.outputFile = MenuColor.quantize_color_level(self.imageInputPath, 5)
+        self.showToOutput("Quantize Level 5")
+
+    def quantize_level_6(self):
+        self.outputFile = MenuColor.quantize_color_level(self.imageInputPath, 6)
+        self.showToOutput("Quantize Level 6")
+
+    def quantize_level_7(self):
+        self.outputFile = MenuColor.quantize_color_level(self.imageInputPath, 7)
+        self.showToOutput("Quantize Level 7")
 
     def grayscale_average(self):
         self.outputFile = MenuColor.rgb_to_grayscale_average(self.imageInputPath)
-        self.showToOutput(self.outputFile)
+        self.showToOutput("Grayscale Average")
 
     def grayscale_lightness(self):
         self.outputFile = MenuColor.rgb_to_grayscale_lightness(self.imageInputPath)
-        self.showToOutput(self.outputFile)
+        self.showToOutput("Grayscale Lightness")
 
     def grayscale_luminance(self):
         self.outputFile = MenuColor.rgb_to_grayscale_luminance(self.imageInputPath)
-        self.showToOutput(self.outputFile)
+        self.showToOutput("Grayscale Luminance")
 
+    def show_dialog_and_get_value(self, factor_type):
+        """
+        Menampilkan dialog dan mengambil nilai parameter berdasarkan tipe.
+        """
+        self.pop_up = QtWidgets.QDialog()
+        self.ui = Ui_DialogFactorLinear()
+        self.ui.setupUi(self.pop_up)
+        result = self.pop_up.exec_()
+
+        if result == QtWidgets.QDialog.Accepted:
+            if factor_type == 'brightness':
+                value = self.ui.get_brightness_factor()
+                self.outputFile = MenuColor.linear_brightness(self.imageInputPath, value)
+                self.showToOutput(f"Brightness Factor: {value}")
+            elif factor_type == 'contrast':
+                value = self.ui.get_contrast_factor()
+                self.outputFile = MenuColor.linear_contrast(self.imageInputPath, value)
+                self.showToOutput(f"Contrast Factor: {value}")
+            elif factor_type == 'saturation':
+                value = self.ui.get_saturation_factor()
+                self.outputFile = MenuColor.linear_saturation(self.imageInputPath, value)
+                self.showToOutput(f"Saturation Factor: {value}")
 
     def linear_brightness(self):
-        self.pop_up = QtWidgets.QMainWindow()
-        self.ui = Ui_DialogFactorLinear(self.imageInputPath) 
-        self.ui.setupUi(self.pop_up)
-        self.pop_up.show()
+        self.show_dialog_and_get_value('brightness')
 
-        # TODO : buat agar kode dibawah ini akan dieksekusi setelah pop_up ditutup
-        factor = pop_up.brightnessFactor
-        self.outputFile = MenuColor.linear_brightness(self.imageInputPath, 50)
-        self.showToOutput(self.outputFile)
-
-
-    
     def linear_contrast(self):
-        self.outputFile = MenuColor.linear_contrast(self.imageInputPath, 2)
-        self.showToOutput(self.outputFile)
+        self.show_dialog_and_get_value('contrast')
 
     def linear_saturation(self):
-        self.outputFile = MenuColor.linear_saturation(self.imageInputPath, 50)
-        self.showToOutput(self.outputFile)
+        self.show_dialog_and_get_value('saturation')
+
     
     def inverse(self):
         self.outputFile = MenuColor.inverse(self.imageInputPath)
-        self.showToOutput(self.outputFile)
+        self.showToOutput("Inverse")
     
     def log_brightness(self):
-        MenuColor.log_brightness(self.imageInputPath)
+        self.outputFile = MenuColor.log_brightness(self.imageInputPath)
+        self.showToOutput("Log Brightness")
 
-    def showAboutDialog(self):
-        print('pre exec')
-        # membuat instance dialog
-        dialog = QtWidgets.QDialog()
-        ui = Ui_DialogAbout()
-        ui.setupUi(dialog)
-        
-        # menampilkan dialog
-        dialog.exec_()
+    def histogram_citra(self):
+        self.outputFile = MenuImageProc.histogram_citra(self.imageInputPath)
+        self.showToOutput("Histogram Citra")
+
+    def histogram_equalization(self):
+        self.outputFile = MenuImageProc.histogram_equalization(self.imageInputPath)
+        self.showToOutput("Histogram Equalization")
+
+    def fuzzy_histogram_equalization(self):
+        self.outputFile = MenuImageProc.fuzzy_histogram_equalization(self.imageInputPath)
+        self.showToOutput("Fuzzy Histogram Equalization");
 
 
 if __name__ == "__main__":

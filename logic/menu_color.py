@@ -197,6 +197,7 @@ class MenuColor:
         return output_file
 
     def log_brightness(image_path):
+        image_asli = cv2.imread(image_path)
         image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
 
         c = 255 / np.log(1 + np.max(image))
@@ -215,7 +216,7 @@ class MenuColor:
 
         plt.subplot(1, 2, 1)
         plt.title("Gambar Asli")
-        plt.imshow(image, cmap='gray', vmin=0, vmax=255)
+        plt.imshow(cv2.cvtColor(image_asli, cv2.COLOR_BGR2RGB), vmin=0, vmax=255)
         plt.axis('off')
 
         plt.subplot(1, 2, 2)

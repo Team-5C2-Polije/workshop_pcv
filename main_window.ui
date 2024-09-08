@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Kelompok C2</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QGraphicsView" name="imageInput">
@@ -38,9 +38,9 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>580</y>
-      <width>1281</width>
-      <height>49</height>
+      <y>609</y>
+      <width>1151</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -55,7 +55,51 @@
      </font>
     </property>
     <property name="text">
-     <string>toolStripLabel</string>
+     <string>toolStripFile</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnOpenImage">
+    <property name="geometry">
+     <rect>
+      <x>1180</x>
+      <y>580</y>
+      <width>111</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Open in Photo</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="toolStripAction">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>580</y>
+      <width>1161</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>toolStripAction</string>
     </property>
    </widget>
   </widget>
@@ -65,7 +109,7 @@
      <x>0</x>
      <y>0</y>
      <width>1322</width>
-     <height>31</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -123,18 +167,6 @@
      <addaction name="actionConstrast"/>
      <addaction name="actionSaturation"/>
     </widget>
-    <widget class="QMenu" name="menuBit_Depth">
-     <property name="title">
-      <string>Bit Depth</string>
-     </property>
-     <addaction name="action1_bit"/>
-     <addaction name="action2_bit"/>
-     <addaction name="action3_bit"/>
-     <addaction name="action4_bit"/>
-     <addaction name="action5_bit"/>
-     <addaction name="action6_bit"/>
-     <addaction name="action7_bit"/>
-    </widget>
     <widget class="QMenu" name="menuQuantize">
      <property name="title">
       <string>Quantize</string>
@@ -143,6 +175,9 @@
      <addaction name="actionLevel_2"/>
      <addaction name="actionLevel_3"/>
      <addaction name="actionLevel_4"/>
+     <addaction name="actionLevel_5"/>
+     <addaction name="actionLevel_6"/>
+     <addaction name="actionLevel_7"/>
     </widget>
     <addaction name="menuRGB"/>
     <addaction name="menuQuantize"/>
@@ -150,7 +185,6 @@
     <addaction name="menuLInear"/>
     <addaction name="actionInvers"/>
     <addaction name="actionLog_Brightness"/>
-    <addaction name="menuBit_Depth"/>
     <addaction name="actionGamma_Correction"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
@@ -162,6 +196,7 @@
     <property name="title">
      <string>Image Processing</string>
     </property>
+    <addaction name="actionShow_Histogram_Citra"/>
     <addaction name="actionHistogram_Equalization"/>
     <addaction name="actionFuzzy_HE_RGB"/>
     <addaction name="actionFuzzy_Grayscale"/>
@@ -561,6 +596,26 @@
   <action name="actionLevel_4">
    <property name="text">
     <string>Level 4</string>
+   </property>
+  </action>
+  <action name="actionLevel_5">
+   <property name="text">
+    <string>Level 5</string>
+   </property>
+  </action>
+  <action name="actionLevel_6">
+   <property name="text">
+    <string>Level 6</string>
+   </property>
+  </action>
+  <action name="actionLevel_7">
+   <property name="text">
+    <string>Level 7</string>
+   </property>
+  </action>
+  <action name="actionShow_Histogram_Citra">
+   <property name="text">
+    <string>Show Histogram Citra</string>
    </property>
   </action>
  </widget>
