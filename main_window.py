@@ -221,6 +221,8 @@ class Ui_MainWindow(object):
         self.actionClearImage.setObjectName("actionClearImage")
         self.actionSaturation = QtWidgets.QAction(MainWindow)
         self.actionSaturation.setObjectName("actionSaturation")
+        self.actionAdjust = QtWidgets.QAction(MainWindow)
+        self.actionAdjust.setObjectName("actionAdjust")
         self.actionBrightness = QtWidgets.QAction(MainWindow)
         self.actionBrightness.setObjectName("actionBrightness")
         self.actionLevel_1 = QtWidgets.QAction(MainWindow)
@@ -260,6 +262,7 @@ class Ui_MainWindow(object):
         self.menuLInear.addAction(self.actionBrightness)
         self.menuLInear.addAction(self.actionConstrast)
         self.menuLInear.addAction(self.actionSaturation)
+        self.menuLInear.addAction(self.actionAdjust)
         self.menuQuantize.addAction(self.actionLevel_1)
         self.menuQuantize.addAction(self.actionLevel_2)
         self.menuQuantize.addAction(self.actionLevel_3)
@@ -404,6 +407,7 @@ class Ui_MainWindow(object):
         self.actionBersihkan.setText(_translate("MainWindow", "Bersihkan"))
         self.actionClearImage.setText(_translate("MainWindow", "Clear Image"))
         self.actionSaturation.setText(_translate("MainWindow", "Saturation"))
+        self.actionAdjust.setText(_translate("MainWindow", "Adjust"))
         self.actionBrightness.setText(_translate("MainWindow", "Brightness"))
         self.actionLevel_1.setText(_translate("MainWindow", "Level 1"))
         self.actionLevel_2.setText(_translate("MainWindow", "Level 2"))
@@ -432,13 +436,15 @@ class Ui_MainWindow(object):
         self.actionBrightness.triggered.connect(self.linear_brightness)
         self.actionConstrast.triggered.connect(self.linear_contrast)
         self.actionSaturation.triggered.connect(self.linear_saturation)
+        self.actionAdjust.triggered.connect(self.linear_adjust)
         self.actionInvers.triggered.connect(self.inverse)
         self.actionLog_Brightness.triggered.connect(self.log_brightness)
         self.actionSaveAs.triggered.connect(self.saveAs)
         self.btnOpenImage.clicked.connect(self.open_image_in_photo)
         self.actionShow_Histogram_Citra.triggered.connect(self.histogram_citra)
         self.actionHistogram_Equalization.triggered.connect(self.histogram_equalization)
-        self.actionFuzzy_HE_RGB.triggered.connect(self.fuzzy_histogram_equalization)
+        self.actionFuzzy_HE_RGB.triggered.connect(self.fuzzy_he_rgb)
+        self.actionFuzzy_Grayscale.triggered.connect(self.fuzzy_grayscale)
 
     # digunakan untuk menampilkan gambar hasil processing ke output
     def showToOutput(self, actionName):
@@ -560,6 +566,14 @@ class Ui_MainWindow(object):
                 value = self.ui.get_saturation_factor()
                 self.outputFile = MenuColor.linear_saturation(self.imageInputPath, value)
                 self.showToOutput(f"Saturation Factor: {value}")
+            elif factor_type == 'adjust':
+                brightness = self.ui.get_brightness_factor()
+                constrast = self.ui.get_contrast_factor()
+                saturation = self.ui.get_saturation_factor()
+                self.outputFile = MenuColor.linear_brightness(self.imageInputPath, brightness)
+                self.outputFile = MenuColor.linear_saturation(self.outputFile, saturation)
+                self.outputFile = MenuColor.linear_contrast(self.outputFile, constrast)
+                self.showToOutput(f"Adjust Factor : brightness({brightness}) / contrast({constrast}) / saturation({saturation})")
 
     def linear_brightness(self):
         self.show_dialog_and_get_value('brightness')
@@ -570,6 +584,8 @@ class Ui_MainWindow(object):
     def linear_saturation(self):
         self.show_dialog_and_get_value('saturation')
 
+    def linear_adjust(self):
+        self.show_dialog_and_get_value('adjust')
     
     def inverse(self):
         self.outputFile = MenuColor.inverse(self.imageInputPath)
@@ -587,9 +603,13 @@ class Ui_MainWindow(object):
         self.outputFile = MenuImageProc.histogram_equalization(self.imageInputPath)
         self.showToOutput("Histogram Equalization")
 
-    def fuzzy_histogram_equalization(self):
-        self.outputFile = MenuImageProc.fuzzy_histogram_equalization(self.imageInputPath)
-        self.showToOutput("Fuzzy Histogram Equalization");
+    def fuzzy_he_rgb(self):
+        self.outputFile = MenuImageProc.fuzzy_he_rgb(self.imageInputPath)
+        self.showToOutput("Fuzzy HE RGB");
+
+    def fuzzy_grayscale(self):
+        self.outputFile = MenuImageProc.fuzzy_grayscale(self.imageInputPath)
+        self.showToOutput("Fuzzy Grayscale");
 
 
 if __name__ == "__main__":

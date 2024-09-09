@@ -79,7 +79,7 @@ class MenuImageProc:
     def __fuzzy_membership_function__(x, mean, stddev):
         return np.exp(-((x - mean) ** 2) / (2 * (stddev ** 2)))
 
-    def __fuzzy_histogram_equalization_proc__(image, block_size=16):
+    def __fuzzy_grayscale_proc__(image, block_size=16):
         # Konversi gambar ke grayscale jika diperlukan
         if len(image.shape) == 3:
             image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -117,12 +117,12 @@ class MenuImageProc:
 
         return equalized_image
     
-    def fuzzy_histogram_equalization(image_path):
+    def fuzzy_grayscale(image_path):
         # Memuat gambar
         image = cv2.imread(image_path)
 
         # Terapkan Fuzzy Histogram Equalization
-        fhe_image = MenuImageProc.__fuzzy_histogram_equalization_proc__(image)
+        fhe_image = MenuImageProc.__fuzzy_grayscale_proc__(image)
         cv2.imwrite(MenuImageProc.outputFile, fhe_image)
 
         histogram_image = cv2.calcHist([image], [0], None, [256], [0, 256])
@@ -155,9 +155,89 @@ class MenuImageProc:
 
         return MenuImageProc.outputFile
 
+    def __fuzzy_membership_function__(x, men, stddev):
+        epsilon = 1e-5
+        return np.exp(-((x - men) ** 2) / (2 * (stddev ** 2 + epsilon)))
 
-image_path = r'C:\Users\Achmad Baihaqi\Pictures\PCV\gbr.jpg'
+    def __fuzzy_he_rgb__(image, block_size=16):
+        height, widht, channels = image.shape
+
+        equalized_image = np.zeros_like(image, dtype=np.uint8)
+
+        for channel in range(channels):
+            channel_data = image[:, :, channel]
+            equalized_channel = np.zeros_like(channel_data, dtype=np.uint8)
+
+            block_height = block_size
+            block_widht = block_size
+
+            for y in range(0, height, block_height):
+                for x in range(0, widht, block_widht):
+                    block = channel_data[y:y+block_height, x:x+block_widht]
+                    if block.size == 0:
+                        continue
+                    
+                    # hitung histogram lokal
+                    hist, bins = np.histogram(block.flatten(), bins=256, range=[0,256])
+                    cdf = hist.cumsum()
+                    cdf_normalized = cdf * 255 / cdf[-1]
+                    equalized_block = np.interp(block.flatten(), bins[:-1], cdf_normalized).reshape(block.shape)
+
+                    # hitung kranggotaan fuzzy
+                    mean = np.mean(equalized_block)
+                    stddev = np.std(equalized_block)
+                    membership = MenuImageProc.__fuzzy_membership_function__(equalized_block, mean, stddev)
+
+                    # terapkan penyesuaian kontras fuzzy
+                    equalized_channel[y:y+block_height, x:x+block_widht] = np.clip(equalized_block * membership, 0, 255).astype(np.uint8)
+
+            equalized_image[:, :, channel] = equalized_channel
+        
+        return equalized_image
+
+    def fuzzy_he_rgb(image_path):
+        image = cv2.imread(image_path) 
+
+        fhe_image_rgb = MenuImageProc.__fuzzy_he_rgb__(image) # Terapkan fhe
+        cv2.imwrite(MenuImageProc.outputFile, fhe_image_rgb)
+
+        histogram_image = cv2.calcHist([image], [0], None, [256], [0, 256])
+        histogram_equalized_image = cv2.calcHist([fhe_image_rgb], [0], None, [256], [0, 256])
+
+
+        # Menampilkan gambar asli dan yang telah di FHE
+        plt.figure(figsize=(12, 6))
+
+        plt.subplot(2, 2, 1)
+        plt.title('Original Image')
+        plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+        plt.axis('off')
+
+        plt.subplot(2, 2, 2)
+        plt.title('Fuzzy Histogram Equalization Image')
+        plt.imshow(fhe_image_rgb, cmap='gray')
+        plt.axis('off')
+
+        plt.subplot(2, 2, 3)
+        plt.title('Origninal Image Histogram')
+        plt.plot(histogram_image)
+        plt.xlim([0, 256])
+
+        plt.subplot(2, 2, 4)
+        plt.title('Equalization Image Histogram')
+        plt.plot(histogram_equalized_image)
+        plt.xlim([0, 256])
+
+        plt.show()
+
+        return MenuImageProc.outputFile
+
+# image_path = r'C:\Users\Achmad Baihaqi\Pictures\PCV\gbr.jpg'
 
 # MenuImageProc.show_histogram_citra(image_path)
 # MenuImageProc.tampilkan_histogram_equalization(r'C:\Users\Achmad Baihaqi\Pictures\PCV\gbr.jpg')
-# MenuImageProc.tampilkan_fuzzy_histogram_equalization(image_path)
+# MenuImageProc.tampilkan_fuzzy_he_grayscale(image_path)
+
+
+
+# flyping horizontal sama vertikal buat sendiri

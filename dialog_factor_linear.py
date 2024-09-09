@@ -110,7 +110,7 @@ class Ui_DialogFactorLinear(QtWidgets.QDialog):
         self.buttonBox.rejected.connect(DialogFactorLinear.reject)
 
         self.inpBright.setText("0")
-        self.inpContrast.setText("0")
+        self.inpContrast.setText("1")
         self.inpSaturation.setText("0")
 
         self.retranslateUi(DialogFactorLinear)
@@ -153,7 +153,7 @@ class Ui_DialogFactorLinear(QtWidgets.QDialog):
         try:
             return int(self.inpContrast.text())
         except ValueError:
-            return 0 
+            return 1
     
     def get_saturation_factor(self):
         try:
