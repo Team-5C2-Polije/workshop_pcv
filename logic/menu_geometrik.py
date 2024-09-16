@@ -3,7 +3,7 @@ import os
 
 class MenuGeometrik:
 
-    outputPath = "..\\.output"
+    outputPath = ".output"
     outputFile = rf"{outputPath}\output.png"
 
     def translate_image(image_path, x_shift, y_shift):
@@ -28,6 +28,7 @@ class MenuGeometrik:
         return MenuGeometrik.outputFile
 
     def rotate_image(image_path, angle):
+        print('asu')
         image = Image.open(image_path)
         # Rotate the image
         rotated_image = image.rotate(angle, expand=True)
@@ -40,7 +41,7 @@ class MenuGeometrik:
         rotated_image.save(MenuGeometrik.outputFile)  # Simpan gambar dengan path lengkap
         
         # Return direktori folder
-        return MenuGeometrik.outputPath
+        return MenuGeometrik.outputFile
 
     def flip_image(image_path, mode='horizontal'):
         image = Image.open(image_path)
@@ -62,7 +63,7 @@ class MenuGeometrik:
         flipped_image.save(MenuGeometrik.outputFile)
         
         # Return direktori folder
-        return MenuGeometrik.outputPath
+        return MenuGeometrik.outputFile
 
     def zoom_image(image_path, zoom_factor):
         image = Image.open(image_path)
@@ -80,7 +81,7 @@ class MenuGeometrik:
         zoomed_image.save(MenuGeometrik.outputFile)
         
         # Return direktori folder
-        return MenuGeometrik.outputPath
+        return MenuGeometrik.outputFile
 
     def crop_image(image_path, left, top, right, bottom):
         image = Image.open(image_path)
@@ -95,7 +96,7 @@ class MenuGeometrik:
         cropped_image.save(MenuGeometrik.outputFile)
         
         # Return path folder
-        return MenuGeometrik.outputPath
+        return MenuGeometrik.outputFile
 
 
 image_path = rf"C:\Users\Achmad Baihaqi\Pictures\a\ar.jpg"

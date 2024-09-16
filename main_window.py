@@ -10,7 +10,10 @@ from logic.menu_image_proc import MenuImageProc
 from logic.menu_view import MenuView
 from logic.menu_geometrik import MenuGeometrik
 from dialog_tentang import Ui_DialogAbout
+from dialog_translate_image import Ui_TranslateImage
 from dialog_factor_linear import Ui_DialogFactorLinear
+from dialog_rotate_image import Ui_RotateImage
+from dialog_zoom_image import Ui_ZoomImage
 
 class Ui_MainWindow(object):
 
@@ -473,6 +476,10 @@ class Ui_MainWindow(object):
         self.actionHistogram_Equalization.triggered.connect(self.histogram_equalization)
         self.actionFuzzy_HE_RGB.triggered.connect(self.fuzzy_he_rgb)
         self.actionFuzzy_Grayscale.triggered.connect(self.fuzzy_grayscale)
+        # geomterics
+        self.actionTranslate_Image.triggered.connect(self.show_dialog_translate_image)
+        self.actionRotate_Image.triggered.connect(self.show_dialog_rotate_image)
+        self.actionZoom_Image.triggered.connect(self.show_dialog_zoom_image)
 
     # digunakan untuk menampilkan gambar hasil processing ke output
     def showToOutput(self, actionName):
@@ -646,12 +653,47 @@ class Ui_MainWindow(object):
 
     def fuzzy_he_rgb(self):
         self.outputFile = MenuImageProc.fuzzy_he_rgb(self.imageInputPath)
-        self.showToOutput("Fuzzy HE RGB");
+        self.showToOutput("Fuzzy HE RGB")
 
     def fuzzy_grayscale(self):
         self.outputFile = MenuImageProc.fuzzy_grayscale(self.imageInputPath)
-        self.showToOutput("Fuzzy Grayscale");
+        self.showToOutput("Fuzzy Grayscale")
 
+    def show_dialog_translate_image(self):
+        self.pop_up = QtWidgets.QDialog()
+        self.ui = Ui_TranslateImage()
+        self.ui.setupUi(self.pop_up)
+        result = self.pop_up.exec_()
+
+        if result == QtWidgets.QDialog.Accepted:
+            valueX = self.ui.get_x()
+            valueY = self.ui.get_y()
+            self.outputFile = MenuGeometrik.translate_image(self.imageInputPath, valueX, valueY)
+            self.showToOutput("Translate Image")
+
+    def show_dialog_rotate_image(self):
+        self.pop_up = QtWidgets.QDialog()
+        self.ui = Ui_RotateImage()
+        self.ui.setupUi(self.pop_up)
+        result = self.pop_up.exec_()
+
+        if result == QtWidgets.QDialog.Accepted:
+            value = self.ui.get_rotate()
+            self.outputFile = MenuGeometrik.rotate_image(self.imageInputPath, value)
+            print('output ' + self.outputFile)
+            self.showToOutput("Rotate Image")
+
+    def show_dialog_zoom_image(self):
+        self.pop_up = QtWidgets.QDialog()
+        self.ui = Ui_ZoomImage()
+        self.ui.setupUi(self.pop_up)
+        result = self.pop_up.exec_()
+
+        if result == QtWidgets.QDialog.Accepted:
+            value = self.ui.get_zoom_level()
+            self.outputFile = MenuGeometrik.zoom_image(self.imageInputPath, value)
+            print('output ' + self.outputFile)
+            self.showToOutput("Zoom Image")
 
 if __name__ == "__main__":
     import sys
