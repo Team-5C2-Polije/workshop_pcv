@@ -39,7 +39,7 @@
      <rect>
       <x>20</x>
       <y>609</y>
-      <width>1151</width>
+      <width>1091</width>
       <height>20</height>
      </rect>
     </property>
@@ -61,9 +61,9 @@
    <widget class="QPushButton" name="btnOpenImage">
     <property name="geometry">
      <rect>
-      <x>1180</x>
+      <x>1140</x>
       <y>580</y>
-      <width>111</width>
+      <width>151</width>
       <height>41</height>
      </rect>
     </property>
@@ -83,7 +83,7 @@
      <rect>
       <x>20</x>
       <y>580</y>
-      <width>1161</width>
+      <width>1091</width>
       <height>20</height>
      </rect>
     </property>
@@ -166,6 +166,7 @@
      <addaction name="actionBrightness"/>
      <addaction name="actionConstrast"/>
      <addaction name="actionSaturation"/>
+     <addaction name="actionAdjust"/>
     </widget>
     <widget class="QMenu" name="menuQuantize">
      <property name="title">
@@ -279,9 +280,20 @@
     <addaction name="menuOpening"/>
     <addaction name="menuClosing"/>
    </widget>
+   <widget class="QMenu" name="menuGeometrics">
+    <property name="title">
+     <string>Geometrics</string>
+    </property>
+    <addaction name="actionTranslate_Image"/>
+    <addaction name="actionRotate_Image"/>
+    <addaction name="actionFlip_Image"/>
+    <addaction name="actionZoom_Image"/>
+    <addaction name="actionCrop_Image"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuINput"/>
    <addaction name="menuColors"/>
+   <addaction name="menuGeometrics"/>
    <addaction name="menuAbout"/>
    <addaction name="menuHistogram_Equalization"/>
    <addaction name="menuAritmetical_Operation"/>
@@ -616,6 +628,36 @@
   <action name="actionShow_Histogram_Citra">
    <property name="text">
     <string>Show Histogram Citra</string>
+   </property>
+  </action>
+  <action name="actionTranslate_Image">
+   <property name="text">
+    <string>Translate Image</string>
+   </property>
+  </action>
+  <action name="actionRotate_Image">
+   <property name="text">
+    <string>Rotate Image</string>
+   </property>
+  </action>
+  <action name="actionFlip_Image">
+   <property name="text">
+    <string>Flip Image</string>
+   </property>
+  </action>
+  <action name="actionZoom_Image">
+   <property name="text">
+    <string>Zoom Image</string>
+   </property>
+  </action>
+  <action name="actionCrop_Image">
+   <property name="text">
+    <string>Crop Image</string>
+   </property>
+  </action>
+  <action name="actionAdjust">
+   <property name="text">
+    <string>Adjust</string>
    </property>
   </action>
  </widget>

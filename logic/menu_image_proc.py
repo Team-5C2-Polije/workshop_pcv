@@ -4,6 +4,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import cv2
 from matplotlib import pyplot as plt
+from PyQt5.QtGui import QImage, QColor, QPixmap
+from PyQt5.QtCore import Qt
 
 class MenuImageProc:
 
@@ -155,67 +157,57 @@ class MenuImageProc:
 
         return MenuImageProc.outputFile
 
-    def __fuzzy_membership_function__(x, men, stddev):
-        epsilon = 1e-5
-        return np.exp(-((x - men) ** 2) / (2 * (stddev ** 2 + epsilon)))
+    def __apply_fuzzy_he_rgb__(value):
+        if value < 128:
+            return int(2 * (value ** 2) / 255.0)
+        else:
+            return int(255 - 2 * ((255 - value) ** 2) / 255.0)
 
-    def __fuzzy_he_rgb__(image, block_size=16):
-        height, widht, channels = image.shape
+    def fuzzy_he_rgb(input_image_path):
+        # Buka gambar input menggunakan PIL
+        input_image = Image.open(input_image_path)
+        input_image = input_image.convert("RGB")
 
-        equalized_image = np.zeros_like(image, dtype=np.uint8)
+        # Ambil ukuran gambar
+        width, height = input_image.size
 
-        for channel in range(channels):
-            channel_data = image[:, :, channel]
-            equalized_channel = np.zeros_like(channel_data, dtype=np.uint8)
+        # Buat gambar output
+        output_image = Image.new("RGB", (width, height))
 
-            block_height = block_size
-            block_widht = block_size
+        # Proses setiap piksel
+        for y in range(height):
+            for x in range(width):
+                # Ambil nilai R, G, B dari input_image
+                r, g, b = input_image.getpixel((x, y))
 
-            for y in range(0, height, block_height):
-                for x in range(0, widht, block_widht):
-                    block = channel_data[y:y+block_height, x:x+block_widht]
-                    if block.size == 0:
-                        continue
-                    
-                    # hitung histogram lokal
-                    hist, bins = np.histogram(block.flatten(), bins=256, range=[0,256])
-                    cdf = hist.cumsum()
-                    cdf_normalized = cdf * 255 / cdf[-1]
-                    equalized_block = np.interp(block.flatten(), bins[:-1], cdf_normalized).reshape(block.shape)
+                # Terapkan fuzzy histogram equalization pada masing-masing channel
+                r = MenuImageProc.__apply_fuzzy_he_rgb__(r)
+                g = MenuImageProc.__apply_fuzzy_he_rgb__(g)
+                b = MenuImageProc.__apply_fuzzy_he_rgb__(b)
 
-                    # hitung kranggotaan fuzzy
-                    mean = np.mean(equalized_block)
-                    stddev = np.std(equalized_block)
-                    membership = MenuImageProc.__fuzzy_membership_function__(equalized_block, mean, stddev)
+                # Set piksel baru ke output_image
+                output_image.putpixel((x, y), (r, g, b))
 
-                    # terapkan penyesuaian kontras fuzzy
-                    equalized_channel[y:y+block_height, x:x+block_widht] = np.clip(equalized_block * membership, 0, 255).astype(np.uint8)
+        # Simpan gambar hasil ke file
+        output_image.save(MenuImageProc.outputFile)
 
-            equalized_image[:, :, channel] = equalized_channel
-        
-        return equalized_image
+        image_input_plot = cv2.imread(input_image_path)
+        image_output_plot = cv2.imread(MenuImageProc.outputFile)
 
-    def fuzzy_he_rgb(image_path):
-        image = cv2.imread(image_path) 
-
-        fhe_image_rgb = MenuImageProc.__fuzzy_he_rgb__(image) # Terapkan fhe
-        cv2.imwrite(MenuImageProc.outputFile, fhe_image_rgb)
-
-        histogram_image = cv2.calcHist([image], [0], None, [256], [0, 256])
-        histogram_equalized_image = cv2.calcHist([fhe_image_rgb], [0], None, [256], [0, 256])
-
+        histogram_image = cv2.calcHist([image_input_plot], [0], None, [256], [0, 256])
+        histogram_equalized_image = cv2.calcHist([image_output_plot], [0], None, [256], [0, 256])
 
         # Menampilkan gambar asli dan yang telah di FHE
         plt.figure(figsize=(12, 6))
 
         plt.subplot(2, 2, 1)
         plt.title('Original Image')
-        plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+        plt.imshow(cv2.cvtColor(image_input_plot, cv2.COLOR_BGR2RGB))
         plt.axis('off')
 
         plt.subplot(2, 2, 2)
-        plt.title('Fuzzy Histogram Equalization Image')
-        plt.imshow(fhe_image_rgb, cmap='gray')
+        plt.title('Fuzzy HE RGB Image')
+        plt.imshow(cv2.cvtColor(image_output_plot, cv2.COLOR_BGR2RGB))
         plt.axis('off')
 
         plt.subplot(2, 2, 3)
@@ -224,20 +216,10 @@ class MenuImageProc:
         plt.xlim([0, 256])
 
         plt.subplot(2, 2, 4)
-        plt.title('Equalization Image Histogram')
+        plt.title('Fuzzy HE RGB Histogram')
         plt.plot(histogram_equalized_image)
         plt.xlim([0, 256])
 
         plt.show()
 
         return MenuImageProc.outputFile
-
-# image_path = r'C:\Users\Achmad Baihaqi\Pictures\PCV\gbr.jpg'
-
-# MenuImageProc.show_histogram_citra(image_path)
-# MenuImageProc.tampilkan_histogram_equalization(r'C:\Users\Achmad Baihaqi\Pictures\PCV\gbr.jpg')
-# MenuImageProc.tampilkan_fuzzy_he_grayscale(image_path)
-
-
-
-# flyping horizontal sama vertikal buat sendiri

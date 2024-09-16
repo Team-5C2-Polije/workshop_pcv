@@ -3,10 +3,11 @@ import os
 
 class MenuGeometrik:
 
-    outputPath = ".output"
+    outputPath = "..\\.output"
     outputFile = rf"{outputPath}\output.png"
 
-    def translate_image(image, x_shift, y_shift):
+    def translate_image(image_path, x_shift, y_shift):
+        image = Image.open(image_path)
         width, height = image.size
         translation_matrix = (1, 0, x_shift, 0, 1, y_shift)
         
@@ -26,7 +27,8 @@ class MenuGeometrik:
         # Return direktori folder
         return MenuGeometrik.outputFile
 
-    def rotate_image(image, angle):
+    def rotate_image(image_path, angle):
+        image = Image.open(image_path)
         # Rotate the image
         rotated_image = image.rotate(angle, expand=True)
         
@@ -40,12 +42,17 @@ class MenuGeometrik:
         # Return direktori folder
         return MenuGeometrik.outputPath
 
-    def flip_image(image, mode='horizontal'):
+    def flip_image(image_path, mode='horizontal'):
+        image = Image.open(image_path)
         # Flip image berdasarkan mode
         if mode == 'horizontal':
             flipped_image = ImageOps.mirror(image)  # Flip horizontal
         elif mode == 'vertical':
             flipped_image = ImageOps.flip(image)  # Flip vertical
+        elif mode == 'transpose_left_right':
+            flipped_image = image.transpose(Image.FLIP_LEFT_RIGHT)  # Transposisi kiri-kanan
+        elif mode == 'transpose_top_bottom':
+            flipped_image = image.transpose(Image.FLIP_TOP_BOTTOM)  # Transposisi atas-bawah
         
         # Buat folder jika belum ada
         if not os.path.exists(MenuGeometrik.outputPath):
@@ -57,7 +64,8 @@ class MenuGeometrik:
         # Return direktori folder
         return MenuGeometrik.outputPath
 
-    def zoom_image(image, zoom_factor):
+    def zoom_image(image_path, zoom_factor):
+        image = Image.open(image_path)
         # Dapatkan ukuran gambar
         width, height = image.size
         
@@ -74,7 +82,8 @@ class MenuGeometrik:
         # Return direktori folder
         return MenuGeometrik.outputPath
 
-    def crop_image(image, left, top, right, bottom):
+    def crop_image(image_path, left, top, right, bottom):
+        image = Image.open(image_path)
         # Memotong gambar berdasarkan koordinat yang diberikan
         cropped_image = image.crop((left, top, right, bottom))
         
@@ -87,3 +96,11 @@ class MenuGeometrik:
         
         # Return path folder
         return MenuGeometrik.outputPath
+
+
+image_path = rf"C:\Users\Achmad Baihaqi\Pictures\a\ar.jpg"
+# MenuGeometrik.translate_image(image_path, 250, 250)
+# MenuGeometrik.rotate_image(image_path, -60)
+MenuGeometrik.flip_image(image_path, "horizontal")
+# MenuGeometrik.zoom_image(image_path, 2)
+# MenuGeometrik.crop_image(image_path, 50, 0, 150, 250)

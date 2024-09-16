@@ -7,10 +7,9 @@ from PyQt5.QtWidgets import QFileDialog, QMessageBox, QAction, QApplication, QMa
 from logic.menu_file import MenuFile
 from logic.menu_color import MenuColor
 from logic.menu_image_proc import MenuImageProc
-from logic.menu_view import MenuView
-from logic.menu_geometrik import MenuGeometrik
 from dialog_tentang import Ui_DialogAbout
 from dialog_factor_linear import Ui_DialogFactorLinear
+
 
 class Ui_MainWindow(object):
 
@@ -32,7 +31,7 @@ class Ui_MainWindow(object):
         self.imageOutput.setGeometry(QtCore.QRect(671, 20, 631, 541))
         self.imageOutput.setObjectName("imageOutput")
         self.toolStripLabel = QtWidgets.QLabel(self.centralwidget)
-        self.toolStripLabel.setGeometry(QtCore.QRect(20, 609, 1091, 20))
+        self.toolStripLabel.setGeometry(QtCore.QRect(20, 609, 1151, 20))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -43,7 +42,7 @@ class Ui_MainWindow(object):
         self.toolStripLabel.setFont(font)
         self.toolStripLabel.setObjectName("toolStripLabel")
         self.btnOpenImage = QtWidgets.QPushButton(self.centralwidget)
-        self.btnOpenImage.setGeometry(QtCore.QRect(1140, 580, 151, 41))
+        self.btnOpenImage.setGeometry(QtCore.QRect(1180, 580, 111, 41))
         font = QtGui.QFont()
         font.setPointSize(9)
         font.setBold(True)
@@ -51,7 +50,7 @@ class Ui_MainWindow(object):
         self.btnOpenImage.setFont(font)
         self.btnOpenImage.setObjectName("btnOpenImage")
         self.toolStripAction = QtWidgets.QLabel(self.centralwidget)
-        self.toolStripAction.setGeometry(QtCore.QRect(20, 580, 1091, 20))
+        self.toolStripAction.setGeometry(QtCore.QRect(20, 580, 1161, 20))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -105,8 +104,6 @@ class Ui_MainWindow(object):
         self.menuOpening.setObjectName("menuOpening")
         self.menuClosing = QtWidgets.QMenu(self.menuMorfologi)
         self.menuClosing.setObjectName("menuClosing")
-        self.menuGeometrics = QtWidgets.QMenu(self.menubar)
-        self.menuGeometrics.setObjectName("menuGeometrics")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -224,6 +221,8 @@ class Ui_MainWindow(object):
         self.actionClearImage.setObjectName("actionClearImage")
         self.actionSaturation = QtWidgets.QAction(MainWindow)
         self.actionSaturation.setObjectName("actionSaturation")
+        self.actionAdjust = QtWidgets.QAction(MainWindow)
+        self.actionAdjust.setObjectName("actionAdjust")
         self.actionBrightness = QtWidgets.QAction(MainWindow)
         self.actionBrightness.setObjectName("actionBrightness")
         self.actionLevel_1 = QtWidgets.QAction(MainWindow)
@@ -242,18 +241,6 @@ class Ui_MainWindow(object):
         self.actionLevel_7.setObjectName("actionLevel_7")
         self.actionShow_Histogram_Citra = QtWidgets.QAction(MainWindow)
         self.actionShow_Histogram_Citra.setObjectName("actionShow_Histogram_Citra")
-        self.actionTranslate_Image = QtWidgets.QAction(MainWindow)
-        self.actionTranslate_Image.setObjectName("actionTranslate_Image")
-        self.actionRotate_Image = QtWidgets.QAction(MainWindow)
-        self.actionRotate_Image.setObjectName("actionRotate_Image")
-        self.actionFlip_Image = QtWidgets.QAction(MainWindow)
-        self.actionFlip_Image.setObjectName("actionFlip_Image")
-        self.actionZoom_Image = QtWidgets.QAction(MainWindow)
-        self.actionZoom_Image.setObjectName("actionZoom_Image")
-        self.actionCrop_Image = QtWidgets.QAction(MainWindow)
-        self.actionCrop_Image.setObjectName("actionCrop_Image")
-        self.actionAdjust = QtWidgets.QAction(MainWindow)
-        self.actionAdjust.setObjectName("actionAdjust")
         self.menuFile.addAction(self.actionOpen)
         self.menuFile.addAction(self.actionSaveAs)
         self.menuFile.addAction(self.actionClearImage)
@@ -322,15 +309,9 @@ class Ui_MainWindow(object):
         self.menuMorfologi.addAction(self.menuDilation.menuAction())
         self.menuMorfologi.addAction(self.menuOpening.menuAction())
         self.menuMorfologi.addAction(self.menuClosing.menuAction())
-        self.menuGeometrics.addAction(self.actionTranslate_Image)
-        self.menuGeometrics.addAction(self.actionRotate_Image)
-        self.menuGeometrics.addAction(self.actionFlip_Image)
-        self.menuGeometrics.addAction(self.actionZoom_Image)
-        self.menuGeometrics.addAction(self.actionCrop_Image)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuINput.menuAction())
         self.menubar.addAction(self.menuColors.menuAction())
-        self.menubar.addAction(self.menuGeometrics.menuAction())
         self.menubar.addAction(self.menuAbout.menuAction())
         self.menubar.addAction(self.menuHistogram_Equalization.menuAction())
         self.menubar.addAction(self.menuAritmetical_Operation.menuAction())
@@ -370,7 +351,6 @@ class Ui_MainWindow(object):
         self.menuDilation.setTitle(_translate("MainWindow", "Dilation"))
         self.menuOpening.setTitle(_translate("MainWindow", "Opening"))
         self.menuClosing.setTitle(_translate("MainWindow", "Closing"))
-        self.menuGeometrics.setTitle(_translate("MainWindow", "Geometrics"))
         self.actionOpen.setText(_translate("MainWindow", "Open"))
         self.actionSaveAs.setText(_translate("MainWindow", "Save As.."))
         self.actionClose.setText(_translate("MainWindow", "Close"))
@@ -427,6 +407,7 @@ class Ui_MainWindow(object):
         self.actionBersihkan.setText(_translate("MainWindow", "Bersihkan"))
         self.actionClearImage.setText(_translate("MainWindow", "Clear Image"))
         self.actionSaturation.setText(_translate("MainWindow", "Saturation"))
+        self.actionAdjust.setText(_translate("MainWindow", "Adjust"))
         self.actionBrightness.setText(_translate("MainWindow", "Brightness"))
         self.actionLevel_1.setText(_translate("MainWindow", "Level 1"))
         self.actionLevel_2.setText(_translate("MainWindow", "Level 2"))
@@ -436,12 +417,6 @@ class Ui_MainWindow(object):
         self.actionLevel_6.setText(_translate("MainWindow", "Level 6"))
         self.actionLevel_7.setText(_translate("MainWindow", "Level 7"))
         self.actionShow_Histogram_Citra.setText(_translate("MainWindow", "Show Histogram Citra"))
-        self.actionTranslate_Image.setText(_translate("MainWindow", "Translate Image"))
-        self.actionRotate_Image.setText(_translate("MainWindow", "Rotate Image"))
-        self.actionFlip_Image.setText(_translate("MainWindow", "Flip Image"))
-        self.actionZoom_Image.setText(_translate("MainWindow", "Zoom Image"))
-        self.actionCrop_Image.setText(_translate("MainWindow", "Crop Image"))
-        self.actionAdjust.setText(_translate("MainWindow", "Adjust"))
 
     # semua aksi pada window
     def action(self, MainWindow):
@@ -465,9 +440,6 @@ class Ui_MainWindow(object):
         self.actionInvers.triggered.connect(self.inverse)
         self.actionLog_Brightness.triggered.connect(self.log_brightness)
         self.actionSaveAs.triggered.connect(self.saveAs)
-        self.actionInput.triggered.connect(self.input_histogram)
-        self.actionOutput.triggered.connect(self.output_histogram)
-        self.actionInput_Output.triggered.connect(self.input_output_histogram)
         self.btnOpenImage.clicked.connect(self.open_image_in_photo)
         self.actionShow_Histogram_Citra.triggered.connect(self.histogram_citra)
         self.actionHistogram_Equalization.triggered.connect(self.histogram_equalization)
@@ -622,19 +594,6 @@ class Ui_MainWindow(object):
     def log_brightness(self):
         self.outputFile = MenuColor.log_brightness(self.imageInputPath)
         self.showToOutput("Log Brightness")
-
-    def input_histogram(self):
-        MenuView.showHistogram(self.imageInputPath, "Input Histogram Image")
-        self.showToOutput("Input Histogram Image")
-
-    def output_histogram(self):
-        MenuView.showHistogram(self.outputFile, "Output Histogram Image")
-        self.showToOutput("Output Histogram Image")
-
-    def input_output_histogram(self):
-        MenuView.showHistogram(self.imageInputPath, "Input Histogram Image")
-        MenuView.showHistogram(self.outputFile, "Ouput Histogram Image")
-        self.showToOutput("Input/Output Histogram Image")
 
     def histogram_citra(self):
         self.outputFile = MenuImageProc.histogram_citra(self.imageInputPath)
