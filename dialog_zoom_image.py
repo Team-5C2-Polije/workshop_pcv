@@ -23,6 +23,7 @@ class Ui_ZoomImage(object):
         font = QtGui.QFont()
         font.setPointSize(14)
         self.inpX_2.setFont(font)
+        self.inpX_2.setText("1")
         self.inpX_2.setObjectName("inpX_2")
 
         # Set integer validator for QLineEdit to allow only integer input

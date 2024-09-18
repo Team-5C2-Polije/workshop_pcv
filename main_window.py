@@ -14,6 +14,7 @@ from dialog_translate_image import Ui_TranslateImage
 from dialog_factor_linear import Ui_DialogFactorLinear
 from dialog_rotate_image import Ui_RotateImage
 from dialog_zoom_image import Ui_ZoomImage
+from dialog_crop_image import Ui_CropImage
 
 class Ui_MainWindow(object):
 
@@ -35,7 +36,7 @@ class Ui_MainWindow(object):
         self.imageOutput.setGeometry(QtCore.QRect(671, 20, 631, 541))
         self.imageOutput.setObjectName("imageOutput")
         self.toolStripLabel = QtWidgets.QLabel(self.centralwidget)
-        self.toolStripLabel.setGeometry(QtCore.QRect(20, 609, 1091, 20))
+        self.toolStripLabel.setGeometry(QtCore.QRect(20, 609, 991, 20))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -46,7 +47,7 @@ class Ui_MainWindow(object):
         self.toolStripLabel.setFont(font)
         self.toolStripLabel.setObjectName("toolStripLabel")
         self.btnOpenImage = QtWidgets.QPushButton(self.centralwidget)
-        self.btnOpenImage.setGeometry(QtCore.QRect(1140, 580, 151, 41))
+        self.btnOpenImage.setGeometry(QtCore.QRect(1160, 580, 131, 41))
         font = QtGui.QFont()
         font.setPointSize(9)
         font.setBold(True)
@@ -54,7 +55,7 @@ class Ui_MainWindow(object):
         self.btnOpenImage.setFont(font)
         self.btnOpenImage.setObjectName("btnOpenImage")
         self.toolStripAction = QtWidgets.QLabel(self.centralwidget)
-        self.toolStripAction.setGeometry(QtCore.QRect(20, 580, 1091, 20))
+        self.toolStripAction.setGeometry(QtCore.QRect(20, 580, 991, 20))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -64,6 +65,14 @@ class Ui_MainWindow(object):
         font.setPointSize(9)
         self.toolStripAction.setFont(font)
         self.toolStripAction.setObjectName("toolStripAction")
+        self.btnInputPhoto = QtWidgets.QPushButton(self.centralwidget)
+        self.btnInputPhoto.setGeometry(QtCore.QRect(1020, 580, 131, 41))
+        font = QtGui.QFont()
+        font.setPointSize(9)
+        font.setBold(True)
+        font.setWeight(75)
+        self.btnInputPhoto.setFont(font)
+        self.btnInputPhoto.setObjectName("btnInputPhoto")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1322, 21))
@@ -110,6 +119,8 @@ class Ui_MainWindow(object):
         self.menuClosing.setObjectName("menuClosing")
         self.menuGeometrics = QtWidgets.QMenu(self.menubar)
         self.menuGeometrics.setObjectName("menuGeometrics")
+        self.menuFlip_Image = QtWidgets.QMenu(self.menuGeometrics)
+        self.menuFlip_Image.setObjectName("menuFlip_Image")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -249,14 +260,16 @@ class Ui_MainWindow(object):
         self.actionTranslate_Image.setObjectName("actionTranslate_Image")
         self.actionRotate_Image = QtWidgets.QAction(MainWindow)
         self.actionRotate_Image.setObjectName("actionRotate_Image")
-        self.actionFlip_Image = QtWidgets.QAction(MainWindow)
-        self.actionFlip_Image.setObjectName("actionFlip_Image")
         self.actionZoom_Image = QtWidgets.QAction(MainWindow)
         self.actionZoom_Image.setObjectName("actionZoom_Image")
         self.actionCrop_Image = QtWidgets.QAction(MainWindow)
         self.actionCrop_Image.setObjectName("actionCrop_Image")
         self.actionAdjust = QtWidgets.QAction(MainWindow)
         self.actionAdjust.setObjectName("actionAdjust")
+        self.actionHorizontal = QtWidgets.QAction(MainWindow)
+        self.actionHorizontal.setObjectName("actionHorizontal")
+        self.actionVertical = QtWidgets.QAction(MainWindow)
+        self.actionVertical.setObjectName("actionVertical")
         self.menuFile.addAction(self.actionOpen)
         self.menuFile.addAction(self.actionSaveAs)
         self.menuFile.addAction(self.actionClearImage)
@@ -325,9 +338,11 @@ class Ui_MainWindow(object):
         self.menuMorfologi.addAction(self.menuDilation.menuAction())
         self.menuMorfologi.addAction(self.menuOpening.menuAction())
         self.menuMorfologi.addAction(self.menuClosing.menuAction())
+        self.menuFlip_Image.addAction(self.actionHorizontal)
+        self.menuFlip_Image.addAction(self.actionVertical)
         self.menuGeometrics.addAction(self.actionTranslate_Image)
         self.menuGeometrics.addAction(self.actionRotate_Image)
-        self.menuGeometrics.addAction(self.actionFlip_Image)
+        self.menuGeometrics.addAction(self.menuFlip_Image.menuAction())
         self.menuGeometrics.addAction(self.actionZoom_Image)
         self.menuGeometrics.addAction(self.actionCrop_Image)
         self.menubar.addAction(self.menuFile.menuAction())
@@ -351,8 +366,9 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Kelompok C2"))
         self.toolStripLabel.setText(_translate("MainWindow", "toolStripFile"))
-        self.btnOpenImage.setText(_translate("MainWindow", "Open in Photo"))
+        self.btnOpenImage.setText(_translate("MainWindow", "Output Photo"))
         self.toolStripAction.setText(_translate("MainWindow", "toolStripAction"))
+        self.btnInputPhoto.setText(_translate("MainWindow", "Input Photo"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuINput.setTitle(_translate("MainWindow", "View"))
         self.menuHIstogram.setTitle(_translate("MainWindow", "HIstogram"))
@@ -374,6 +390,7 @@ class Ui_MainWindow(object):
         self.menuOpening.setTitle(_translate("MainWindow", "Opening"))
         self.menuClosing.setTitle(_translate("MainWindow", "Closing"))
         self.menuGeometrics.setTitle(_translate("MainWindow", "Geometrics"))
+        self.menuFlip_Image.setTitle(_translate("MainWindow", "Flip Image"))
         self.actionOpen.setText(_translate("MainWindow", "Open"))
         self.actionSaveAs.setText(_translate("MainWindow", "Save As.."))
         self.actionClose.setText(_translate("MainWindow", "Close"))
@@ -441,10 +458,11 @@ class Ui_MainWindow(object):
         self.actionShow_Histogram_Citra.setText(_translate("MainWindow", "Show Histogram Citra"))
         self.actionTranslate_Image.setText(_translate("MainWindow", "Translate Image"))
         self.actionRotate_Image.setText(_translate("MainWindow", "Rotate Image"))
-        self.actionFlip_Image.setText(_translate("MainWindow", "Flip Image"))
         self.actionZoom_Image.setText(_translate("MainWindow", "Zoom Image"))
         self.actionCrop_Image.setText(_translate("MainWindow", "Crop Image"))
         self.actionAdjust.setText(_translate("MainWindow", "Adjust"))
+        self.actionHorizontal.setText(_translate("MainWindow", "Horizontal"))
+        self.actionVertical.setText(_translate("MainWindow", "Vertical"))
 
     # semua aksi pada window
     def action(self, MainWindow):
@@ -471,7 +489,8 @@ class Ui_MainWindow(object):
         self.actionInput.triggered.connect(self.input_histogram)
         self.actionOutput.triggered.connect(self.output_histogram)
         self.actionInput_Output.triggered.connect(self.input_output_histogram)
-        self.btnOpenImage.clicked.connect(self.open_image_in_photo)
+        self.btnOpenImage.clicked.connect(self.open_ouput_in_photo)
+        self.btnInputPhoto.clicked.connect(self.open_input_in_photo)
         self.actionShow_Histogram_Citra.triggered.connect(self.histogram_citra)
         self.actionHistogram_Equalization.triggered.connect(self.histogram_equalization)
         self.actionFuzzy_HE_RGB.triggered.connect(self.fuzzy_he_rgb)
@@ -480,6 +499,9 @@ class Ui_MainWindow(object):
         self.actionTranslate_Image.triggered.connect(self.show_dialog_translate_image)
         self.actionRotate_Image.triggered.connect(self.show_dialog_rotate_image)
         self.actionZoom_Image.triggered.connect(self.show_dialog_zoom_image)
+        self.actionHorizontal.triggered.connect(self.flipHorizontal)
+        self.actionVertical.triggered.connect(self.flipVertical)
+        self.actionCrop_Image.triggered.connect(self.show_dialog_crop_image)
 
     # digunakan untuk menampilkan gambar hasil processing ke output
     def showToOutput(self, actionName):
@@ -526,8 +548,22 @@ class Ui_MainWindow(object):
         self.toolStripAction.setText("No Action Selected")
 
     # membuka gambar hasil processing ke photo
-    def open_image_in_photo(self):
+    def open_ouput_in_photo(self):
         image_path = self.outputFile
+        # Cek apakah file gambar ada
+        if os.path.exists(image_path):
+            try:
+                # Membuka gambar dengan aplikasi Photo
+                os.startfile(image_path)
+                print(f"Gambar {image_path} dibuka di Photo.")
+            except Exception as e:
+                print(f"Error saat membuka gambar: {e}")
+        else:
+            print(f"File {image_path} tidak ditemukan.")
+
+    # membuka gambar hasil processing ke photo
+    def open_input_in_photo(self):
+        image_path = self.imageInputPath
         # Cek apakah file gambar ada
         if os.path.exists(image_path):
             try:
@@ -670,6 +706,14 @@ class Ui_MainWindow(object):
             valueY = self.ui.get_y()
             self.outputFile = MenuGeometrik.translate_image(self.imageInputPath, valueX, valueY)
             self.showToOutput("Translate Image")
+    
+    def flipVertical(self):
+        self.outputFile = MenuGeometrik.flip_image(self.imageInputPath, 'vertical')
+        self.showToOutput("Flip Vertical")
+
+    def flipHorizontal(self):
+        self.outputFile = MenuGeometrik.flip_image(self.imageInputPath, 'horizontal')
+        self.showToOutput("Flip Horizontal")
 
     def show_dialog_rotate_image(self):
         self.pop_up = QtWidgets.QDialog()
@@ -694,6 +738,28 @@ class Ui_MainWindow(object):
             self.outputFile = MenuGeometrik.zoom_image(self.imageInputPath, value)
             print('output ' + self.outputFile)
             self.showToOutput("Zoom Image")
+
+    def show_dialog_crop_image(self):
+        # Create an instance of Ui_CropImage with the image path
+        self.dialog = Ui_CropImage(self.imageInputPath)
+        
+        # Execute the dialog and get the result
+        result = self.dialog.exec_()
+
+        # Check if the dialog was accepted
+        if result == QtWidgets.QDialog.Accepted:
+            # Use the correct instance to get the bounding box coordinates
+            posTop = self.dialog.get_pos_top()
+            posBottom = self.dialog.get_pos_bottom()
+            posRight = self.dialog.get_pos_right()
+            posLeft = self.dialog.get_pos_left()
+            
+            # Crop the image using the coordinates
+            self.outputFile = MenuGeometrik.crop_image(self.imageInputPath, posLeft, posTop, posRight, posBottom)
+            # self.outputFile = rf".\output\output.png"
+
+            # Show the cropped image or perform other actions
+            self.showToOutput("Crop Image")
 
 if __name__ == "__main__":
     import sys

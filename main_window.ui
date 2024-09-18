@@ -39,7 +39,7 @@
      <rect>
       <x>20</x>
       <y>609</y>
-      <width>1091</width>
+      <width>991</width>
       <height>20</height>
      </rect>
     </property>
@@ -61,9 +61,9 @@
    <widget class="QPushButton" name="btnOpenImage">
     <property name="geometry">
      <rect>
-      <x>1140</x>
+      <x>1160</x>
       <y>580</y>
-      <width>151</width>
+      <width>131</width>
       <height>41</height>
      </rect>
     </property>
@@ -75,7 +75,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Open in Photo</string>
+     <string>Output Photo</string>
     </property>
    </widget>
    <widget class="QLabel" name="toolStripAction">
@@ -83,7 +83,7 @@
      <rect>
       <x>20</x>
       <y>580</y>
-      <width>1091</width>
+      <width>991</width>
       <height>20</height>
      </rect>
     </property>
@@ -100,6 +100,26 @@
     </property>
     <property name="text">
      <string>toolStripAction</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnInputPhoto">
+    <property name="geometry">
+     <rect>
+      <x>1020</x>
+      <y>580</y>
+      <width>131</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Input Photo</string>
     </property>
    </widget>
   </widget>
@@ -284,9 +304,16 @@
     <property name="title">
      <string>Geometrics</string>
     </property>
+    <widget class="QMenu" name="menuFlip_Image">
+     <property name="title">
+      <string>Flip Image</string>
+     </property>
+     <addaction name="actionHorizontal"/>
+     <addaction name="actionVertical"/>
+    </widget>
     <addaction name="actionTranslate_Image"/>
     <addaction name="actionRotate_Image"/>
-    <addaction name="actionFlip_Image"/>
+    <addaction name="menuFlip_Image"/>
     <addaction name="actionZoom_Image"/>
     <addaction name="actionCrop_Image"/>
    </widget>
@@ -640,11 +667,6 @@
     <string>Rotate Image</string>
    </property>
   </action>
-  <action name="actionFlip_Image">
-   <property name="text">
-    <string>Flip Image</string>
-   </property>
-  </action>
   <action name="actionZoom_Image">
    <property name="text">
     <string>Zoom Image</string>
@@ -658,6 +680,16 @@
   <action name="actionAdjust">
    <property name="text">
     <string>Adjust</string>
+   </property>
+  </action>
+  <action name="actionHorizontal">
+   <property name="text">
+    <string>Horizontal</string>
+   </property>
+  </action>
+  <action name="actionVertical">
+   <property name="text">
+    <string>Vertical</string>
    </property>
   </action>
  </widget>
