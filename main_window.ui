@@ -317,10 +317,28 @@
     <addaction name="actionZoom_Image"/>
     <addaction name="actionCrop_Image"/>
    </widget>
+   <widget class="QMenu" name="menuSegmentation">
+    <property name="title">
+     <string>Segmentation</string>
+    </property>
+    <widget class="QMenu" name="menuAdaptive_Thresh">
+     <property name="title">
+      <string>Adaptive Thresh</string>
+     </property>
+     <addaction name="actionMean"/>
+     <addaction name="actionGaussian"/>
+    </widget>
+    <addaction name="actionRegion_Growing"/>
+    <addaction name="actionKmeans_Clustering"/>
+    <addaction name="actionWatershed_Segmentation"/>
+    <addaction name="actionGlobal_Thresholding"/>
+    <addaction name="menuAdaptive_Thresh"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuINput"/>
    <addaction name="menuColors"/>
    <addaction name="menuGeometrics"/>
+   <addaction name="menuSegmentation"/>
    <addaction name="menuAbout"/>
    <addaction name="menuHistogram_Equalization"/>
    <addaction name="menuAritmetical_Operation"/>
@@ -690,6 +708,36 @@
   <action name="actionVertical">
    <property name="text">
     <string>Vertical</string>
+   </property>
+  </action>
+  <action name="actionRegion_Growing">
+   <property name="text">
+    <string>Region Growing</string>
+   </property>
+  </action>
+  <action name="actionKmeans_Clustering">
+   <property name="text">
+    <string>Kmeans Clustering</string>
+   </property>
+  </action>
+  <action name="actionWatershed_Segmentation">
+   <property name="text">
+    <string>Watershed Segmentation</string>
+   </property>
+  </action>
+  <action name="actionGlobal_Thresholding">
+   <property name="text">
+    <string>Global Thresholding</string>
+   </property>
+  </action>
+  <action name="actionMean">
+   <property name="text">
+    <string>Mean</string>
+   </property>
+  </action>
+  <action name="actionGaussian">
+   <property name="text">
+    <string>Gaussian</string>
    </property>
   </action>
  </widget>

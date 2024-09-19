@@ -9,7 +9,7 @@ class MenuSegmentasi:
     outputPath = ".output"
     outputFile = rf"{outputPath}\output.png"
 
-    def plot_images(original_image, result_image):
+    def plot_images(plotName, original_image, result_image):
         plt.figure(figsize=(10, 5))
 
         # Plot gambar asli
@@ -20,7 +20,7 @@ class MenuSegmentasi:
 
         # Plot gambar hasil segmentasi
         plt.subplot(1, 2, 2)
-        plt.title("Segmented Image")
+        plt.title(plotName)
         plt.imshow(result_image, cmap='gray')
         # plt.imshow(result_image)
         plt.axis('on')
@@ -60,7 +60,7 @@ class MenuSegmentasi:
 
         # Tampilkan gambar asli dan hasil segmentasi
         image_ori = cv2.imread(image_path)
-        MenuSegmentasi.plot_images(image_ori, segmented)
+        MenuSegmentasi.plot_images("Region Growing", image_ori, segmented)
 
         return MenuSegmentasi.outputFile
     
@@ -91,7 +91,7 @@ class MenuSegmentasi:
 
         # Tampilkan gambar asli dan hasil klasterisasi
         image_ori = cv2.imread(image_path)
-        MenuSegmentasi.plot_images(image_ori, segmented_image)
+        MenuSegmentasi.plot_images("Kmeans Clustering", image_ori, segmented_image)
 
         return MenuSegmentasi.outputFile
     
@@ -137,10 +137,10 @@ class MenuSegmentasi:
 
         # Tampilkan gambar asli dan hasil watershed
         image_ori = cv2.imread(image_path)
-        MenuSegmentasi.plot_images(image_ori, image)
+        MenuSegmentasi.plot_images("Watershed Segmentation", image_ori, image)
 
         return MenuSegmentasi.outputFile
-    
+
     def global_thresholding(image_path, threshold_value):
         # Membaca citra grayscale
         image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
@@ -160,7 +160,7 @@ class MenuSegmentasi:
 
         # Tampilkan gambar asli dan hasil global thresholding
         image_ori = cv2.imread(image_path)
-        MenuSegmentasi.plot_images(image_ori, binary_image)
+        MenuSegmentasi.plot_images("Global Thresholding", image_ori, binary_image)
 
         return MenuSegmentasi.outputFile
     
@@ -184,9 +184,10 @@ class MenuSegmentasi:
 
         # Tampilkan gambar asli dan hasil thresholding adaptif mean
         image_ori = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)  # Membaca citra grayscale untuk kesesuaian plot
-        MenuSegmentasi.plot_images(image_ori, adaptive_thresh_mean)
+        MenuSegmentasi.plot_images("Adaptive Thresh Mean", image_ori, adaptive_thresh_mean)
 
         return MenuSegmentasi.outputFile
+    
     def adaptive_thresh_gaussian(image_path):
         # Membaca citra grayscale
         image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
@@ -206,7 +207,7 @@ class MenuSegmentasi:
 
         # Tampilkan gambar asli dan hasil thresholding adaptif Gaussian
         image_ori = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)  # Membaca citra grayscale untuk kesesuaian plot
-        MenuSegmentasi.plot_images(image_ori, adaptive_thresh_gaussian)
+        MenuSegmentasi.plot_images("Adaptive Thresh Gaussian", image_ori, adaptive_thresh_gaussian)
 
         return MenuSegmentasi.outputFile
 
@@ -214,7 +215,7 @@ class MenuSegmentasi:
 image_path = r'C:\Users\Achmad Baihaqi\Pictures\PCV\gbr.jpg'
 seed = (10, 10)  # Koordinat seed point
 threshold_value = 20  # Threshold
-MenuSegmentasi.region_growing(image_path, seed, threshold_value)
+# MenuSegmentasi.region_growing(image_path, seed, threshold_value)
 # MenuSegmentasi.kmeans_clustering(image_path, 2)
 # MenuSegmentasi.watershed_segmentation(image_path)
 # MenuSegmentasi.global_thresholding(image_path, 100)

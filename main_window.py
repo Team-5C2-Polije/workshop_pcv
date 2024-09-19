@@ -9,6 +9,7 @@ from logic.menu_color import MenuColor
 from logic.menu_image_proc import MenuImageProc
 from logic.menu_view import MenuView
 from logic.menu_geometrik import MenuGeometrik
+from logic.menu_segmentasi import MenuSegmentasi
 from dialog_tentang import Ui_DialogAbout
 from dialog_translate_image import Ui_TranslateImage
 from dialog_factor_linear import Ui_DialogFactorLinear
@@ -121,6 +122,10 @@ class Ui_MainWindow(object):
         self.menuGeometrics.setObjectName("menuGeometrics")
         self.menuFlip_Image = QtWidgets.QMenu(self.menuGeometrics)
         self.menuFlip_Image.setObjectName("menuFlip_Image")
+        self.menuSegmentation = QtWidgets.QMenu(self.menubar)
+        self.menuSegmentation.setObjectName("menuSegmentation")
+        self.menuAdaptive_Thresh = QtWidgets.QMenu(self.menuSegmentation)
+        self.menuAdaptive_Thresh.setObjectName("menuAdaptive_Thresh")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -270,6 +275,18 @@ class Ui_MainWindow(object):
         self.actionHorizontal.setObjectName("actionHorizontal")
         self.actionVertical = QtWidgets.QAction(MainWindow)
         self.actionVertical.setObjectName("actionVertical")
+        self.actionRegion_Growing = QtWidgets.QAction(MainWindow)
+        self.actionRegion_Growing.setObjectName("actionRegion_Growing")
+        self.actionKmeans_Clustering = QtWidgets.QAction(MainWindow)
+        self.actionKmeans_Clustering.setObjectName("actionKmeans_Clustering")
+        self.actionWatershed_Segmentation = QtWidgets.QAction(MainWindow)
+        self.actionWatershed_Segmentation.setObjectName("actionWatershed_Segmentation")
+        self.actionGlobal_Thresholding = QtWidgets.QAction(MainWindow)
+        self.actionGlobal_Thresholding.setObjectName("actionGlobal_Thresholding")
+        self.actionMean = QtWidgets.QAction(MainWindow)
+        self.actionMean.setObjectName("actionMean")
+        self.actionGaussian = QtWidgets.QAction(MainWindow)
+        self.actionGaussian.setObjectName("actionGaussian")
         self.menuFile.addAction(self.actionOpen)
         self.menuFile.addAction(self.actionSaveAs)
         self.menuFile.addAction(self.actionClearImage)
@@ -345,10 +362,18 @@ class Ui_MainWindow(object):
         self.menuGeometrics.addAction(self.menuFlip_Image.menuAction())
         self.menuGeometrics.addAction(self.actionZoom_Image)
         self.menuGeometrics.addAction(self.actionCrop_Image)
+        self.menuAdaptive_Thresh.addAction(self.actionMean)
+        self.menuAdaptive_Thresh.addAction(self.actionGaussian)
+        self.menuSegmentation.addAction(self.actionRegion_Growing)
+        self.menuSegmentation.addAction(self.actionKmeans_Clustering)
+        self.menuSegmentation.addAction(self.actionWatershed_Segmentation)
+        self.menuSegmentation.addAction(self.actionGlobal_Thresholding)
+        self.menuSegmentation.addAction(self.menuAdaptive_Thresh.menuAction())
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuINput.menuAction())
         self.menubar.addAction(self.menuColors.menuAction())
         self.menubar.addAction(self.menuGeometrics.menuAction())
+        self.menubar.addAction(self.menuSegmentation.menuAction())
         self.menubar.addAction(self.menuAbout.menuAction())
         self.menubar.addAction(self.menuHistogram_Equalization.menuAction())
         self.menubar.addAction(self.menuAritmetical_Operation.menuAction())
@@ -358,6 +383,7 @@ class Ui_MainWindow(object):
 
         # Connect actions to slots
         self.action(MainWindow)  
+
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -391,6 +417,8 @@ class Ui_MainWindow(object):
         self.menuClosing.setTitle(_translate("MainWindow", "Closing"))
         self.menuGeometrics.setTitle(_translate("MainWindow", "Geometrics"))
         self.menuFlip_Image.setTitle(_translate("MainWindow", "Flip Image"))
+        self.menuSegmentation.setTitle(_translate("MainWindow", "Segmentation"))
+        self.menuAdaptive_Thresh.setTitle(_translate("MainWindow", "Adaptive Thresh"))
         self.actionOpen.setText(_translate("MainWindow", "Open"))
         self.actionSaveAs.setText(_translate("MainWindow", "Save As.."))
         self.actionClose.setText(_translate("MainWindow", "Close"))
@@ -463,6 +491,12 @@ class Ui_MainWindow(object):
         self.actionAdjust.setText(_translate("MainWindow", "Adjust"))
         self.actionHorizontal.setText(_translate("MainWindow", "Horizontal"))
         self.actionVertical.setText(_translate("MainWindow", "Vertical"))
+        self.actionRegion_Growing.setText(_translate("MainWindow", "Region Growing"))
+        self.actionKmeans_Clustering.setText(_translate("MainWindow", "Kmeans Clustering"))
+        self.actionWatershed_Segmentation.setText(_translate("MainWindow", "Watershed Segmentation"))
+        self.actionGlobal_Thresholding.setText(_translate("MainWindow", "Global Thresholding"))
+        self.actionMean.setText(_translate("MainWindow", "Mean"))
+        self.actionGaussian.setText(_translate("MainWindow", "Gaussian"))
 
     # semua aksi pada window
     def action(self, MainWindow):
@@ -502,6 +536,13 @@ class Ui_MainWindow(object):
         self.actionHorizontal.triggered.connect(self.flipHorizontal)
         self.actionVertical.triggered.connect(self.flipVertical)
         self.actionCrop_Image.triggered.connect(self.show_dialog_crop_image)
+        # segmentations
+        self.actionRegion_Growing.triggered.connect(self.region_growing)
+        self.actionKmeans_Clustering.triggered.connect(self.kmeans_clustering)
+        self.actionWatershed_Segmentation.triggered.connect(self.watershed_segmentation)
+        self.actionGlobal_Thresholding.triggered.connect(self.global_thresholding)
+        self.actionMean.triggered.connect(self.adaptive_thresh_mean)
+        self.actionGaussian.triggered.connect(self.adaptive_thresh_gaussian)
 
     # digunakan untuk menampilkan gambar hasil processing ke output
     def showToOutput(self, actionName):
@@ -760,6 +801,32 @@ class Ui_MainWindow(object):
 
             # Show the cropped image or perform other actions
             self.showToOutput("Crop Image")
+
+    def region_growing(self):
+        seed = (10, 10) 
+        threshold_value = 20
+        self.outputFile = MenuSegmentasi.region_growing(self.imageInputPath, seed, threshold_value)
+        self.showToOutput("Region Growing")
+    
+    def kmeans_clustering(self):
+        self.outputFile = MenuSegmentasi.kmeans_clustering(self.imageInputPath, 2)
+        self.showToOutput("Kmeans Clustering")
+
+    def watershed_segmentation(self):
+        self.outputFile = MenuSegmentasi.watershed_segmentation(self.imageInputPath)
+        self.showToOutput("Watershed Segmentation")
+
+    def global_thresholding(self):
+        self.outputFile = MenuSegmentasi.global_thresholding(self.imageInputPath, 100)
+        self.showToOutput("Golbal Thresholding")
+
+    def adaptive_thresh_mean(self):
+        self.outputFile = MenuSegmentasi.adaptive_thresh_mean(self.imageInputPath)
+        self.showToOutput("Adaptive Thresh Mean")
+
+    def adaptive_thresh_gaussian(self):
+        self.outputFile = MenuSegmentasi.adaptive_thresh_gaussian(self.imageInputPath)
+        self.showToOutput("Adaptive Thresh Gaussian")
 
 if __name__ == "__main__":
     import sys
