@@ -212,7 +212,7 @@ class MenuSegmentasi:
         return MenuSegmentasi.outputFile
 
 # Contoh penggunaan
-image_path = r'C:\Users\Achmad Baihaqi\Pictures\PCV\gbr.jpg'
+# image_path = r'C:\Users\Achmad Baihaqi\Pictures\PCV\gbr.jpg'
 seed = (10, 10)  # Koordinat seed point
 threshold_value = 20  # Threshold
 # MenuSegmentasi.region_growing(image_path, seed, threshold_value)

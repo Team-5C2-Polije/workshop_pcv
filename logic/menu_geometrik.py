@@ -99,9 +99,9 @@ class MenuGeometrik:
         return MenuGeometrik.outputFile
 
 
-image_path = rf"C:\Users\Achmad Baihaqi\Pictures\a\ar.jpg"
+# image_path = rf"C:\Users\Achmad Baihaqi\Pictures\a\ar.jpg"
 # MenuGeometrik.translate_image(image_path, 250, 250)
 # MenuGeometrik.rotate_image(image_path, -60)
-MenuGeometrik.flip_image(image_path, "horizontal")
+# MenuGeometrik.flip_image(image_path, "horizontal")
 # MenuGeometrik.zoom_image(image_path, 2)
 # MenuGeometrik.crop_image(image_path, 50, 0, 150, 250)

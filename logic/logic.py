@@ -3,8 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Membaca citra dari path gambar
-image_path = r'C:\Users\Achmad Baihaqi\Pictures\PCV\gbr.jpg'
-image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)  # Membaca gambar grayscale
+# image_path = r'C:\Users\Achmad Baihaqi\Pictures\PCV\gbr.jpg'
+# image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)  # Membaca gambar grayscale
 
 # 1. Region Growing
 def region_growing(img, seed_point, threshold):
@@ -87,46 +87,46 @@ def adaptive_thresholding(image):
 
 
 # Seed point dan threshold untuk Region Growing
-seed = (10, 10)  # Koordinat seed point
-threshold_value = 20  # Threshold
-segmented_image = region_growing(image, seed, threshold_value)
-segmented_image_kmeans = kmeans_clustering(image, 2)
-watershed_image = watershed_segmentation(image)
-global_threshold_image = global_thresholding(image, 100)
-adaptive_thresh_mean, adaptive_thresh_gaussian = adaptive_thresholding(image)
+# seed = (10, 10)  # Koordinat seed point
+# threshold_value = 20  # Threshold
+# segmented_image = region_growing(image, seed, threshold_value)
+# segmented_image_kmeans = kmeans_clustering(image, 2)
+# watershed_image = watershed_segmentation(image)
+# global_threshold_image = global_thresholding(image, 100)
+# adaptive_thresh_mean, adaptive_thresh_gaussian = adaptive_thresholding(image)
 
-# Plot semua hasil secara bersamaan
-plt.figure(figsize=(15, 10))
+# # Plot semua hasil secara bersamaan
+# plt.figure(figsize=(15, 10))
 
-# Original image
-plt.subplot(3, 2, 1)
-plt.imshow(image)
-plt.title('Original Image')
+# # Original image
+# plt.subplot(3, 2, 1)
+# plt.imshow(image)
+# plt.title('Original Image')
 
-# Region Growing result
-plt.subplot(3, 2, 2)
-plt.imshow(segmented_image, cmap='gray')
-plt.title('Region Growing')
+# # Region Growing result
+# plt.subplot(3, 2, 2)
+# plt.imshow(segmented_image, cmap='gray')
+# plt.title('Region Growing')
 
-# K-Means Clustering result
-plt.subplot(3, 2, 3)
-plt.imshow(segmented_image_kmeans, cmap='gray')
-plt.title('K-Means Clustering')
+# # K-Means Clustering result
+# plt.subplot(3, 2, 3)
+# plt.imshow(segmented_image_kmeans, cmap='gray')
+# plt.title('K-Means Clustering')
 
-# Watershed result
-plt.subplot(3, 2, 4)
-plt.imshow(watershed_image, cmap='gray')
-plt.title('Watershed Segmentation')
+# # Watershed result
+# plt.subplot(3, 2, 4)
+# plt.imshow(watershed_image, cmap='gray')
+# plt.title('Watershed Segmentation')
 
-# Global Thresholding result
-plt.subplot(3, 2, 5)
-plt.imshow(global_threshold_image, cmap='gray')
-plt.title('Global Thresholding')
+# # Global Thresholding result
+# plt.subplot(3, 2, 5)
+# plt.imshow(global_threshold_image, cmap='gray')
+# plt.title('Global Thresholding')
 
-# Adaptive Thresholding result
-plt.subplot(3, 2, 6)
-plt.imshow(adaptive_thresh_mean, cmap='gray')
-plt.title('Adaptive Thresholding (Mean)')
+# # Adaptive Thresholding result
+# plt.subplot(3, 2, 6)
+# plt.imshow(adaptive_thresh_mean, cmap='gray')
+# plt.title('Adaptive Thresholding (Mean)')
 
-plt.tight_layout()
-plt.show()
+# plt.tight_layout()
+# plt.show()
