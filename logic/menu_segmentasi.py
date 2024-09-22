@@ -221,3 +221,4 @@ threshold_value = 20  # Threshold
 # MenuSegmentasi.global_thresholding(image_path, 100)
 # MenuSegmentasi.adaptive_thresh_mean(image_path)
 # MenuSegmentasi.adaptive_thresh_gaussian(image_path)
+
