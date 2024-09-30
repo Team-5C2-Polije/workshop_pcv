@@ -3,8 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Membaca citra dari path gambar
-# image_path = r'C:\Users\Achmad Baihaqi\Pictures\PCV\gbr.jpg'
-# image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)  # Membaca gambar grayscale
+image_path = r'C:\Users\Achmad Baihaqi\Pictures\PCV\gbr.jpg'
+image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)  # Membaca gambar grayscale
 
 # 1. Region Growing
 def region_growing(img, seed_point, threshold):
@@ -87,13 +87,13 @@ def adaptive_thresholding(image):
 
 
 # Seed point dan threshold untuk Region Growing
-# seed = (10, 10)  # Koordinat seed point
-# threshold_value = 20  # Threshold
-# segmented_image = region_growing(image, seed, threshold_value)
-# segmented_image_kmeans = kmeans_clustering(image, 2)
-# watershed_image = watershed_segmentation(image)
-# global_threshold_image = global_thresholding(image, 100)
-# adaptive_thresh_mean, adaptive_thresh_gaussian = adaptive_thresholding(image)
+seed = (10, 10)  # Koordinat seed point
+threshold_value = 20  # Threshold
+segmented_image = region_growing(image, seed, threshold_value)
+segmented_image_kmeans = kmeans_clustering(image, 2)
+watershed_image = watershed_segmentation(image)
+global_threshold_image = global_thresholding(image, 100)
+adaptive_thresh_mean, adaptive_thresh_gaussian = adaptive_thresholding(image)
 
 # # Plot semua hasil secara bersamaan
 # plt.figure(figsize=(15, 10))

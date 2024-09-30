@@ -81,7 +81,7 @@ class MenuImageProc:
     def __fuzzy_membership_function__(x, mean, stddev):
         return np.exp(-((x - mean) ** 2) / (2 * (stddev ** 2)))
 
-    def __fuzzy_grayscale_proc__(image, block_size=16):
+    def __fuzzy_grayscale_proc__(image, block_size=3000):
         # Konversi gambar ke grayscale jika diperlukan
         if len(image.shape) == 3:
             image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)

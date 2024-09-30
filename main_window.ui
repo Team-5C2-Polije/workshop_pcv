@@ -129,7 +129,7 @@
      <x>0</x>
      <y>0</y>
      <width>1322</width>
-     <height>21</height>
+     <height>31</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -299,6 +299,10 @@
     <addaction name="menuDilation"/>
     <addaction name="menuOpening"/>
     <addaction name="menuClosing"/>
+    <addaction name="actionHit_Or_Miss"/>
+    <addaction name="actionThinned"/>
+    <addaction name="actionSkeleton"/>
+    <addaction name="actionPrune_Skeleton"/>
    </widget>
    <widget class="QMenu" name="menuGeometrics">
     <property name="title">
@@ -738,6 +742,26 @@
   <action name="actionGaussian">
    <property name="text">
     <string>Gaussian</string>
+   </property>
+  </action>
+  <action name="actionHit_Or_Miss">
+   <property name="text">
+    <string>Hit Or Miss</string>
+   </property>
+  </action>
+  <action name="actionThinned">
+   <property name="text">
+    <string>Thinned</string>
+   </property>
+  </action>
+  <action name="actionSkeleton">
+   <property name="text">
+    <string>Skeleton</string>
+   </property>
+  </action>
+  <action name="actionPrune_Skeleton">
+   <property name="text">
+    <string>Prune Skeleton</string>
    </property>
   </action>
  </widget>
