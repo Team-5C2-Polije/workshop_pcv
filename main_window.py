@@ -11,6 +11,7 @@ from logic.menu_view import MenuView
 from logic.menu_geometrik import MenuGeometrik
 from logic.menu_segmentasi import MenuSegmentasi
 from logic.menu_morfologi import MenuMorfologi
+from logic.menu_edge_detection import MenuEdgeDetection
 from dialog_tentang import Ui_DialogAbout
 from dialog_translate_image import Ui_TranslateImage
 from dialog_factor_linear import Ui_DialogFactorLinear
@@ -571,6 +572,9 @@ class Ui_MainWindow(object):
         self.actionDilationCross_5.triggered.connect(self.dilate3)
         self.actionOpeningSquare_9.triggered.connect(self.opening9)
         self.actionClosingSquare_9.triggered.connect(self.closing9)
+        # edge detection
+        self.actionSebel.triggered.connect(self.sobel)
+        self.actionPrewitt.triggered.connect(self.prewit)
 
     # digunakan untuk menampilkan gambar hasil processing ke output
     def showToOutput(self, actionName):
@@ -924,6 +928,18 @@ class Ui_MainWindow(object):
     def closing9(self):
         self.outputFile = MenuMorfologi.closing(self.imageInputPath, 4)
         self.showToOutput("Square 9")
+        
+    def sobel(self):
+        self.outputFile = MenuEdgeDetection.sobel(self.imageInputPath)
+        self.showToOutput("Sobel")
+
+    def prewit(self):
+        self.outputFile = MenuEdgeDetection.prewit(self.imageInputPath)
+        self.showToOutput("Prewit")
+
+    def canny(self):
+        self.outputFile = MenuEdgeDetection.canny(self.imageInputPath)
+        self.showToOutput("Canny")
         
 
 if __name__ == "__main__":

@@ -12,7 +12,7 @@ class MenuMorfologi:
         if type == 1:
             return np.ones((3, 3), np.uint8)
         elif type == 2:
-            return np.ones((5, 3), np.uint8)
+            return np.ones((5, 5), np.uint8)
         elif type == 3:
                 return cv2.getStructuringElement(cv2.MORPH_CROSS, (3, 3))
         elif type == 4:
@@ -31,7 +31,7 @@ class MenuMorfologi:
         return outputPath
 
     def dilate(imagePath, kernelType):
-        img = cv2.imread(imagePath)
+        img = cv2.imread(imagePath, 0)
         _, binary_img = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)
 
         kernel = MenuMorfologi.__getKernel__(kernelType)
@@ -119,5 +119,5 @@ class MenuMorfologi:
         return outputPath
 
 
-MenuMorfologi.prune_skeleton(rf'C:\Users\Achmad Baihaqi\Pictures\PCV\city-bali.png')
+# MenuMorfologi.prune_skeleton(rf'C:\Users\Achmad Baihaqi\Pictures\PCV\city-bali.png')
 
