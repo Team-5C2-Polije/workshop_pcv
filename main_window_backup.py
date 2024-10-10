@@ -9,12 +9,18 @@ from logic.menu_color import MenuColor
 from logic.menu_image_proc import MenuImageProc
 from logic.menu_view import MenuView
 from logic.menu_geometrik import MenuGeometrik
+from logic.menu_segmentasi import MenuSegmentasi
+from logic.menu_morfologi import MenuMorfologi
+from logic.menu_edge_detection import MenuEdgeDetection
 from dialog_tentang import Ui_DialogAbout
 from dialog_translate_image import Ui_TranslateImage
 from dialog_factor_linear import Ui_DialogFactorLinear
 from dialog_rotate_image import Ui_RotateImage
 from dialog_zoom_image import Ui_ZoomImage
 from dialog_crop_image import Ui_CropImage
+from dialog_seed import Ui_RegionGrowing
+from dialog_kmeans_clustering import Ui_KmeansCLus
+from dialog_global_thresholding import Ui_GlobalThres
 
 class Ui_MainWindow(object):
 
@@ -75,7 +81,7 @@ class Ui_MainWindow(object):
         self.btnInputPhoto.setObjectName("btnInputPhoto")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1322, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1322, 31))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
@@ -121,6 +127,10 @@ class Ui_MainWindow(object):
         self.menuGeometrics.setObjectName("menuGeometrics")
         self.menuFlip_Image = QtWidgets.QMenu(self.menuGeometrics)
         self.menuFlip_Image.setObjectName("menuFlip_Image")
+        self.menuSegmentation = QtWidgets.QMenu(self.menubar)
+        self.menuSegmentation.setObjectName("menuSegmentation")
+        self.menuAdaptive_Thresh = QtWidgets.QMenu(self.menuSegmentation)
+        self.menuAdaptive_Thresh.setObjectName("menuAdaptive_Thresh")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -270,6 +280,28 @@ class Ui_MainWindow(object):
         self.actionHorizontal.setObjectName("actionHorizontal")
         self.actionVertical = QtWidgets.QAction(MainWindow)
         self.actionVertical.setObjectName("actionVertical")
+        self.actionRegion_Growing = QtWidgets.QAction(MainWindow)
+        self.actionRegion_Growing.setObjectName("actionRegion_Growing")
+        self.actionKmeans_Clustering = QtWidgets.QAction(MainWindow)
+        self.actionKmeans_Clustering.setObjectName("actionKmeans_Clustering")
+        self.actionWatershed_Segmentation = QtWidgets.QAction(MainWindow)
+        self.actionWatershed_Segmentation.setObjectName("actionWatershed_Segmentation")
+        self.actionGlobal_Thresholding = QtWidgets.QAction(MainWindow)
+        self.actionGlobal_Thresholding.setObjectName("actionGlobal_Thresholding")
+        self.actionMean = QtWidgets.QAction(MainWindow)
+        self.actionMean.setObjectName("actionMean")
+        self.actionGaussian = QtWidgets.QAction(MainWindow)
+        self.actionGaussian.setObjectName("actionGaussian")
+        self.actionHit_Or_Miss = QtWidgets.QAction(MainWindow)
+        self.actionHit_Or_Miss.setObjectName("actionHit_Or_Miss")
+        self.actionThinned = QtWidgets.QAction(MainWindow)
+        self.actionThinned.setObjectName("actionThinned")
+        self.actionSkeleton = QtWidgets.QAction(MainWindow)
+        self.actionSkeleton.setObjectName("actionSkeleton")
+        self.actionPrune_Skeleton = QtWidgets.QAction(MainWindow)
+        self.actionPrune_Skeleton.setObjectName("actionPrune_Skeleton")
+        self.actionCanny = QtWidgets.QAction(MainWindow)
+        self.actionCanny.setObjectName("actionCanny")
         self.menuFile.addAction(self.actionOpen)
         self.menuFile.addAction(self.actionSaveAs)
         self.menuFile.addAction(self.actionClearImage)
@@ -326,6 +358,7 @@ class Ui_MainWindow(object):
         self.menuFilter.addAction(self.actionBandstop_Filter)
         self.menuEdge_Detection_2.addAction(self.actionPrewitt)
         self.menuEdge_Detection_2.addAction(self.actionSebel)
+        self.menuEdge_Detection_2.addAction(self.actionCanny)
         self.menuErosion.addAction(self.actionErosionSquare_3)
         self.menuErosion.addAction(self.actionErosionSquare_5)
         self.menuErosion.addAction(self.actionErosionCross_3)
@@ -338,6 +371,10 @@ class Ui_MainWindow(object):
         self.menuMorfologi.addAction(self.menuDilation.menuAction())
         self.menuMorfologi.addAction(self.menuOpening.menuAction())
         self.menuMorfologi.addAction(self.menuClosing.menuAction())
+        self.menuMorfologi.addAction(self.actionHit_Or_Miss)
+        self.menuMorfologi.addAction(self.actionThinned)
+        self.menuMorfologi.addAction(self.actionSkeleton)
+        self.menuMorfologi.addAction(self.actionPrune_Skeleton)
         self.menuFlip_Image.addAction(self.actionHorizontal)
         self.menuFlip_Image.addAction(self.actionVertical)
         self.menuGeometrics.addAction(self.actionTranslate_Image)
@@ -345,10 +382,18 @@ class Ui_MainWindow(object):
         self.menuGeometrics.addAction(self.menuFlip_Image.menuAction())
         self.menuGeometrics.addAction(self.actionZoom_Image)
         self.menuGeometrics.addAction(self.actionCrop_Image)
+        self.menuAdaptive_Thresh.addAction(self.actionMean)
+        self.menuAdaptive_Thresh.addAction(self.actionGaussian)
+        self.menuSegmentation.addAction(self.actionRegion_Growing)
+        self.menuSegmentation.addAction(self.actionKmeans_Clustering)
+        self.menuSegmentation.addAction(self.actionWatershed_Segmentation)
+        self.menuSegmentation.addAction(self.actionGlobal_Thresholding)
+        self.menuSegmentation.addAction(self.menuAdaptive_Thresh.menuAction())
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuINput.menuAction())
         self.menubar.addAction(self.menuColors.menuAction())
         self.menubar.addAction(self.menuGeometrics.menuAction())
+        self.menubar.addAction(self.menuSegmentation.menuAction())
         self.menubar.addAction(self.menuAbout.menuAction())
         self.menubar.addAction(self.menuHistogram_Equalization.menuAction())
         self.menubar.addAction(self.menuAritmetical_Operation.menuAction())
@@ -391,6 +436,8 @@ class Ui_MainWindow(object):
         self.menuClosing.setTitle(_translate("MainWindow", "Closing"))
         self.menuGeometrics.setTitle(_translate("MainWindow", "Geometrics"))
         self.menuFlip_Image.setTitle(_translate("MainWindow", "Flip Image"))
+        self.menuSegmentation.setTitle(_translate("MainWindow", "Segmentation"))
+        self.menuAdaptive_Thresh.setTitle(_translate("MainWindow", "Adaptive Thresh"))
         self.actionOpen.setText(_translate("MainWindow", "Open"))
         self.actionSaveAs.setText(_translate("MainWindow", "Save As.."))
         self.actionClose.setText(_translate("MainWindow", "Close"))
@@ -435,7 +482,7 @@ class Ui_MainWindow(object):
         self.actionGaussian_Blur_3x3.setText(_translate("MainWindow", "Gaussian Blur 3x3"))
         self.actionGaussian_Blur_3x5.setText(_translate("MainWindow", "Gaussian Blur 3x5"))
         self.actionPrewitt.setText(_translate("MainWindow", "Prewitt"))
-        self.actionSebel.setText(_translate("MainWindow", "Sebel"))
+        self.actionSebel.setText(_translate("MainWindow", "Sobel"))
         self.actionErosionSquare_3.setText(_translate("MainWindow", "Square 3"))
         self.actionErosionSquare_5.setText(_translate("MainWindow", "Square 5"))
         self.actionErosionCross_3.setText(_translate("MainWindow", "Cross 3"))
@@ -463,6 +510,18 @@ class Ui_MainWindow(object):
         self.actionAdjust.setText(_translate("MainWindow", "Adjust"))
         self.actionHorizontal.setText(_translate("MainWindow", "Horizontal"))
         self.actionVertical.setText(_translate("MainWindow", "Vertical"))
+        self.actionRegion_Growing.setText(_translate("MainWindow", "Region Growing"))
+        self.actionKmeans_Clustering.setText(_translate("MainWindow", "Kmeans Clustering"))
+        self.actionWatershed_Segmentation.setText(_translate("MainWindow", "Watershed Segmentation"))
+        self.actionGlobal_Thresholding.setText(_translate("MainWindow", "Global Thresholding"))
+        self.actionMean.setText(_translate("MainWindow", "Mean"))
+        self.actionGaussian.setText(_translate("MainWindow", "Gaussian"))
+        self.actionHit_Or_Miss.setText(_translate("MainWindow", "Hit Or Miss"))
+        self.actionThinned.setText(_translate("MainWindow", "Thinned"))
+        self.actionSkeleton.setText(_translate("MainWindow", "Skeleton"))
+        self.actionPrune_Skeleton.setText(_translate("MainWindow", "Prune Skeleton"))
+        self.actionCanny.setText(_translate("MainWindow", "Canny"))
+
 
     # semua aksi pada window
     def action(self, MainWindow):
@@ -502,6 +561,26 @@ class Ui_MainWindow(object):
         self.actionHorizontal.triggered.connect(self.flipHorizontal)
         self.actionVertical.triggered.connect(self.flipVertical)
         self.actionCrop_Image.triggered.connect(self.show_dialog_crop_image)
+        # segmentations
+        self.actionRegion_Growing.triggered.connect(self.region_growing)
+        self.actionKmeans_Clustering.triggered.connect(self.kmeans_clustering)
+        self.actionWatershed_Segmentation.triggered.connect(self.watershed_segmentation)
+        self.actionGlobal_Thresholding.triggered.connect(self.global_thresholding)
+        self.actionMean.triggered.connect(self.adaptive_thresh_mean)
+        self.actionGaussian.triggered.connect(self.adaptive_thresh_gaussian)
+        # morfologi
+        self.actionErosionSquare_3.triggered.connect(self.erotion33)
+        self.actionErosionSquare_5.triggered.connect(self.erotion53)
+        self.actionErosionCross_3.triggered.connect(self.erotion3)
+        self.actionDilationSquare_3.triggered.connect(self.dilate33)
+        self.actionDilationSquare_5.triggered.connect(self.dilate53)
+        self.actionDilationCross_5.triggered.connect(self.dilate3)
+        self.actionOpeningSquare_9.triggered.connect(self.opening9)
+        self.actionClosingSquare_9.triggered.connect(self.closing9)
+        # edge detection
+        self.actionSebel.triggered.connect(self.sobel)
+        self.actionPrewitt.triggered.connect(self.prewit)
+        self.actionCanny.triggered.connect(self.canny)
 
     # digunakan untuk menampilkan gambar hasil processing ke output
     def showToOutput(self, actionName):
@@ -760,6 +839,118 @@ class Ui_MainWindow(object):
 
             # Show the cropped image or perform other actions
             self.showToOutput("Crop Image")
+
+    # def region_growing(self):
+    #     seed = (10, 10) 
+    #     threshold_value = 20
+    #     self.outputFile = MenuSegmentasi.region_growing(self.imageInputPath, seed, threshold_value)
+    #     self.showToOutput("Region Growing")
+    def region_growing(self):
+        # Gunakan QDialog untuk dialog input
+        RegionGrowingWindow = QtWidgets.QDialog()
+        ui = Ui_RegionGrowing()
+        ui.setupUi(RegionGrowingWindow)
+
+        # Tampilkan dialog dan ambil hasilnya
+        if RegionGrowingWindow.exec_() == QtWidgets.QDialog.Accepted:
+            seed1 = ui.get_inpSeed1()
+            seed2 = ui.get_inpSeed2()
+            threshold_value = ui.get_inpThresold()
+
+            seed = (seed1, seed2)
+            self.outputFile = MenuSegmentasi.region_growing(self.imageInputPath, seed, threshold_value)
+            self.showToOutput("Region Growing")
+        
+    # def kmeans_clustering(self):
+    #     self.outputFile = MenuSegmentasi.kmeans_clustering(self.imageInputPath, 2)
+    #     self.showToOutput("Kmeans Clustering")
+    def kmeans_clustering(self):
+        KmeansCLusDialog = QtWidgets.QDialog()
+        ui = Ui_KmeansCLus()
+        ui.setupUi(KmeansCLusDialog)
+
+        if KmeansCLusDialog.exec_() == QtWidgets.QDialog.Accepted:
+            k_value = ui.get_inpK()  # Ambil nilai K dari input pengguna
+
+            self.outputFile = MenuSegmentasi.kmeans_clustering(self.imageInputPath, k_value)
+            self.showToOutput("Kmeans Clustering")
+
+
+    def watershed_segmentation(self):
+        self.outputFile = MenuSegmentasi.watershed_segmentation(self.imageInputPath)
+        self.showToOutput("Watershed Segmentation")
+
+    # def global_thresholding(self):
+    #     self.outputFile = MenuSegmentasi.global_thresholding(self.imageInputPath, 100)
+    #     self.showToOutput("Golbal Thresholding")
+    def global_thresholding(self):
+        GlobalThresDialog = QtWidgets.QDialog()
+        ui = Ui_GlobalThres()
+        ui.setupUi(GlobalThresDialog)
+
+        if GlobalThresDialog.exec_() == QtWidgets.QDialog.Accepted:
+            threshold_value = ui.get_inpThres()  # Ambil nilai threshold dari input pengguna
+
+            self.outputFile = MenuSegmentasi.global_thresholding(self.imageInputPath, threshold_value)
+            self.showToOutput("Global Thresholding")
+
+
+    def adaptive_thresh_mean(self):
+        self.outputFile = MenuSegmentasi.adaptive_thresh_mean(self.imageInputPath)
+        self.showToOutput("Adaptive Thresh Mean")
+
+    def adaptive_thresh_gaussian(self):
+        self.outputFile = MenuSegmentasi.adaptive_thresh_gaussian(self.imageInputPath)
+        self.showToOutput("Adaptive Thresh Gaussian")
+
+    def erotion33(self):
+        self.outputFile = MenuMorfologi.erotion(self.imageInputPath, 1)
+        self.showToOutput("Erotion Square 3")
+
+    def erotion53(self):
+        self.outputFile = MenuMorfologi.erotion(self.imageInputPath,2)
+        self.showToOutput("Erotion Square 5")
+
+    def erotion3(self):
+        self.outputFile = MenuMorfologi.erotion(self.imageInputPath, 3)
+        self.showToOutput("Erotion Cross 3")
+
+    def dilate33(self):
+        self.outputFile = MenuMorfologi.dilate(self.imageInputPath, 1)
+        self.showToOutput("Dilate Square 3")
+
+    def dilate53(self):
+        self.outputFile = MenuMorfologi.dilate(self.imageInputPath,2)
+        self.showToOutput("Dilate Square 5")
+
+    def dilate3(self):
+        self.outputFile = MenuMorfologi.dilate(self.imageInputPath, 3)
+        self.showToOutput("Dilate Cross 3")
+
+    def opening9(self):
+        self.outputFile = MenuMorfologi.opening(self.imageInputPath, 4)
+        self.showToOutput("Square 9")
+
+    def closing9(self):
+        self.outputFile = MenuMorfologi.closing(self.imageInputPath, 4)
+        self.showToOutput("Square 9")
+        
+    def sobel(self):
+        self.outputFile = MenuEdgeDetection.sobel(self.imageInputPath)
+        self.showToOutput("Sobel")
+
+    def prewit(self):
+        self.outputFile = MenuEdgeDetection.prewitt(self.imageInputPath)
+        self.showToOutput("Prewit")
+
+    def canny(self):
+        self.outputFile = MenuEdgeDetection.canny(self.imageInputPath)
+        self.showToOutput("Canny")
+
+    # def aritmatic(self):
+        # TODO : tampilkan dialog_aritmatika.py disini
+        # sebelumnya convert dulu dialog dialog_aritmatika.py ke dialog
+        
 
 if __name__ == "__main__":
     import sys

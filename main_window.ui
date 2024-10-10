@@ -129,7 +129,7 @@
      <x>0</x>
      <y>0</y>
      <width>1322</width>
-     <height>31</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -339,6 +339,13 @@
     <addaction name="actionGlobal_Thresholding"/>
     <addaction name="menuAdaptive_Thresh"/>
    </widget>
+   <widget class="QMenu" name="menuFeature_Extraction">
+    <property name="title">
+     <string>Feature Extraction</string>
+    </property>
+    <addaction name="actionColor"/>
+    <addaction name="actionTexture"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuINput"/>
    <addaction name="menuColors"/>
@@ -350,6 +357,7 @@
    <addaction name="menuFilter"/>
    <addaction name="menuEdge_Detection_2"/>
    <addaction name="menuMorfologi"/>
+   <addaction name="menuFeature_Extraction"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionOpen">
@@ -768,6 +776,16 @@
   <action name="actionCanny">
    <property name="text">
     <string>Canny</string>
+   </property>
+  </action>
+  <action name="actionColor">
+   <property name="text">
+    <string>Color</string>
+   </property>
+  </action>
+  <action name="actionTexture">
+   <property name="text">
+    <string>Texture</string>
    </property>
   </action>
  </widget>

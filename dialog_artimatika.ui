@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>AricmaticWindow</class>
+ <widget class="QMainWindow" name="AricmaticWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>AricmaticWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QGraphicsView" name="photoInput1">
@@ -138,9 +138,6 @@
      <property name="title">
       <string>Clear</string>
      </property>
-     <addaction name="actionClear_All"/>
-     <addaction name="actionClear_Image1"/>
-     <addaction name="actionClear_Image2"/>
     </widget>
     <addaction name="menuOpen"/>
     <addaction name="menuClear_2"/>
@@ -165,7 +162,7 @@
    </widget>
    <widget class="QMenu" name="menuClear">
     <property name="title">
-     <string> </string>
+     <string/>
     </property>
    </widget>
    <addaction name="menuFile"/>

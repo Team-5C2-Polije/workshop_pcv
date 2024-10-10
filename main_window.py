@@ -21,6 +21,7 @@ from dialog_crop_image import Ui_CropImage
 from dialog_seed import Ui_RegionGrowing
 from dialog_kmeans_clustering import Ui_KmeansCLus
 from dialog_global_thresholding import Ui_GlobalThres
+from dialog_artimatika import Ui_AricmaticWindow
 
 class Ui_MainWindow(object):
 
@@ -81,7 +82,7 @@ class Ui_MainWindow(object):
         self.btnInputPhoto.setObjectName("btnInputPhoto")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1322, 31))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1322, 21))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
@@ -131,6 +132,8 @@ class Ui_MainWindow(object):
         self.menuSegmentation.setObjectName("menuSegmentation")
         self.menuAdaptive_Thresh = QtWidgets.QMenu(self.menuSegmentation)
         self.menuAdaptive_Thresh.setObjectName("menuAdaptive_Thresh")
+        self.menuFeature_Extraction = QtWidgets.QMenu(self.menubar)
+        self.menuFeature_Extraction.setObjectName("menuFeature_Extraction")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -302,6 +305,10 @@ class Ui_MainWindow(object):
         self.actionPrune_Skeleton.setObjectName("actionPrune_Skeleton")
         self.actionCanny = QtWidgets.QAction(MainWindow)
         self.actionCanny.setObjectName("actionCanny")
+        self.actionColor = QtWidgets.QAction(MainWindow)
+        self.actionColor.setObjectName("actionColor")
+        self.actionTexture = QtWidgets.QAction(MainWindow)
+        self.actionTexture.setObjectName("actionTexture")
         self.menuFile.addAction(self.actionOpen)
         self.menuFile.addAction(self.actionSaveAs)
         self.menuFile.addAction(self.actionClearImage)
@@ -389,6 +396,8 @@ class Ui_MainWindow(object):
         self.menuSegmentation.addAction(self.actionWatershed_Segmentation)
         self.menuSegmentation.addAction(self.actionGlobal_Thresholding)
         self.menuSegmentation.addAction(self.menuAdaptive_Thresh.menuAction())
+        self.menuFeature_Extraction.addAction(self.actionColor)
+        self.menuFeature_Extraction.addAction(self.actionTexture)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuINput.menuAction())
         self.menubar.addAction(self.menuColors.menuAction())
@@ -400,6 +409,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuFilter.menuAction())
         self.menubar.addAction(self.menuEdge_Detection_2.menuAction())
         self.menubar.addAction(self.menuMorfologi.menuAction())
+        self.menubar.addAction(self.menuFeature_Extraction.menuAction())
 
         # Connect actions to slots
         self.action(MainWindow)  
@@ -438,6 +448,7 @@ class Ui_MainWindow(object):
         self.menuFlip_Image.setTitle(_translate("MainWindow", "Flip Image"))
         self.menuSegmentation.setTitle(_translate("MainWindow", "Segmentation"))
         self.menuAdaptive_Thresh.setTitle(_translate("MainWindow", "Adaptive Thresh"))
+        self.menuFeature_Extraction.setTitle(_translate("MainWindow", "Feature Extraction"))
         self.actionOpen.setText(_translate("MainWindow", "Open"))
         self.actionSaveAs.setText(_translate("MainWindow", "Save As.."))
         self.actionClose.setText(_translate("MainWindow", "Close"))
@@ -521,7 +532,8 @@ class Ui_MainWindow(object):
         self.actionSkeleton.setText(_translate("MainWindow", "Skeleton"))
         self.actionPrune_Skeleton.setText(_translate("MainWindow", "Prune Skeleton"))
         self.actionCanny.setText(_translate("MainWindow", "Canny"))
-
+        self.actionColor.setText(_translate("MainWindow", "Color"))
+        self.actionTexture.setText(_translate("MainWindow", "Texture"))
 
     # semua aksi pada window
     def action(self, MainWindow):
@@ -581,6 +593,8 @@ class Ui_MainWindow(object):
         self.actionSebel.triggered.connect(self.sobel)
         self.actionPrewitt.triggered.connect(self.prewit)
         self.actionCanny.triggered.connect(self.canny)
+        # aricmatic
+        self.menuAritmetical_Operation.aboutToShow.connect(self.show_aricmatic_dialog)
 
     # digunakan untuk menampilkan gambar hasil processing ke output
     def showToOutput(self, actionName):
@@ -947,9 +961,16 @@ class Ui_MainWindow(object):
         self.outputFile = MenuEdgeDetection.canny(self.imageInputPath)
         self.showToOutput("Canny")
 
-    # def aritmatic(self):
-        # TODO : tampilkan dialog_aritmatika.py disini
-        # sebelumnya convert dulu dialog dialog_aritmatika.py ke dialog
+    def show_aricmatic_dialog(self):
+        self.aricmatic_window = QtWidgets.QMainWindow()
+        ui = Ui_AricmaticWindow()
+        ui.setupUi(self.aricmatic_window)
+        self.aricmatic_window.closeEvent = self.on_aricmatic_window_close
+        self.aricmatic_window.show()
+
+    def on_aricmatic_window_close(self, event):
+        print('hi')
+        event.accept()
         
 
 if __name__ == "__main__":
