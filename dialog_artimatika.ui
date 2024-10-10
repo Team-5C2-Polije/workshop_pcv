@@ -133,15 +133,16 @@
      </property>
      <addaction name="actionInput_1"/>
      <addaction name="actionInput_2"/>
+     <addaction name="actionOpen_Output_to_Photo"/>
     </widget>
     <widget class="QMenu" name="menuClear_2">
      <property name="title">
       <string>Clear</string>
      </property>
+     <addaction name="actionClear_All_2"/>
     </widget>
     <addaction name="menuOpen"/>
     <addaction name="menuClear_2"/>
-    <addaction name="actionSave_Output"/>
    </widget>
    <widget class="QMenu" name="menuAritmatika">
     <property name="title">
@@ -254,6 +255,16 @@
   <action name="actionSave_Output">
    <property name="text">
     <string>Save Output</string>
+   </property>
+  </action>
+  <action name="actionClear_All_2">
+   <property name="text">
+    <string>Clear All</string>
+   </property>
+  </action>
+  <action name="actionOpen_Output_to_Photo">
+   <property name="text">
+    <string>Open Output to Photo</string>
    </property>
   </action>
  </widget>

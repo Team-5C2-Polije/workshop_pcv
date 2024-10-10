@@ -1,13 +1,14 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import cv2
 import numpy as np
+import os
 
 class Ui_AricmaticWindow(object):
 
     image1 = None
     image2 = None
-    imageOutputPathDef = '\\output.png'
-    outputFile = rf".\output\output.png"
+    outputPath = ".output"
+    outputFile = rf"{outputPath}\output.png"
 
     def setupUi(self, AricmaticWindow):
         AricmaticWindow.setObjectName("AricmaticWindow")
@@ -105,11 +106,16 @@ class Ui_AricmaticWindow(object):
         self.actionXOR.setObjectName("actionXOR")
         self.actionSave_Output = QtWidgets.QAction(AricmaticWindow)
         self.actionSave_Output.setObjectName("actionSave_Output")
+        self.actionClear_All_2 = QtWidgets.QAction(AricmaticWindow)
+        self.actionClear_All_2.setObjectName("actionClear_All_2")
+        self.actionOpen_Output_to_Photo = QtWidgets.QAction(AricmaticWindow)
+        self.actionOpen_Output_to_Photo.setObjectName("actionOpen_Output_to_Photo")
         self.menuOpen.addAction(self.actionInput_1)
         self.menuOpen.addAction(self.actionInput_2)
+        self.menuOpen.addAction(self.actionOpen_Output_to_Photo)
+        self.menuClear_2.addAction(self.actionClear_All_2)
         self.menuFile.addAction(self.menuOpen.menuAction())
         self.menuFile.addAction(self.menuClear_2.menuAction())
-        self.menuFile.addAction(self.actionSave_Output)
         self.menuAritmatika.addAction(self.actionAddition)
         self.menuAritmatika.addAction(self.actionSubtraction)
         self.menuAritmatika.addAction(self.actionMultiplication)
@@ -155,6 +161,8 @@ class Ui_AricmaticWindow(object):
         self.actionAND.setText(_translate("AricmaticWindow", "AND"))
         self.actionXOR.setText(_translate("AricmaticWindow", "XOR"))
         self.actionSave_Output.setText(_translate("AricmaticWindow", "Save Output"))
+        self.actionClear_All_2.setText(_translate("AricmaticWindow", "Clear All"))
+        self.actionOpen_Output_to_Photo.setText(_translate("AricmaticWindow", "Open Output to Photo"))
 
     def action(self, AricmaticWindow):
         self.actionInput_1.triggered.connect(self.openFileImage1)
@@ -166,6 +174,8 @@ class Ui_AricmaticWindow(object):
         self.actionOR.triggered.connect(self.bitwise_or)
         self.actionAND.triggered.connect(self.bitwise_and)
         self.actionXOR.triggered.connect(self.bitwise_xor)
+        self.actionClear_All_2.triggered.connect(self.clear_all)
+        self.actionOpen_Output_to_Photo.triggered.connect(self.open_ouput_in_photo)
 
     def openFileImage(self, target_view):
         # Open file dialog
@@ -294,6 +304,31 @@ class Ui_AricmaticWindow(object):
             self.displayResult(addition_result, self.photoOutput)
         else:
             self.showErrorMessage("Error: One or both images are not loaded.")
+
+    def clear_all(self):
+        # Clear the scenes in photoOutput, photoInput1, and photoInput2
+        self.photoOutput.setScene(None)
+        self.photoInput1.setScene(None)
+        self.photoInput2.setScene(None)
+
+        # Reset image1 and image2 to None
+        self.image1 = None
+        self.image2 = None
+
+        print("All images cleared.")
+
+    def open_ouput_in_photo(self):
+        image_path = self.outputFile
+        # Cek apakah file gambar ada
+        if os.path.exists(image_path):
+            try:
+                # Membuka gambar dengan aplikasi Photo
+                os.startfile(image_path)
+                print(f"Gambar {image_path} dibuka di Photo.")
+            except Exception as e:
+                print(f"Error saat membuka gambar: {e}")
+        else:
+            print(f"File {image_path} tidak ditemukan.")
 
 if __name__ == "__main__":
     import sys
