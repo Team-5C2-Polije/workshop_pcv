@@ -1,7 +1,14 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+import cv2
+import numpy as np
 
 class Ui_AricmaticWindow(object):
+
+    image1 = None
+    image2 = None
+    imageOutputPathDef = '\\output.png'
+    outputFile = rf".\output\output.png"
+
     def setupUi(self, AricmaticWindow):
         AricmaticWindow.setObjectName("AricmaticWindow")
         AricmaticWindow.resize(1254, 444)
@@ -115,6 +122,8 @@ class Ui_AricmaticWindow(object):
         self.menubar.addAction(self.menu0perations.menuAction())
         self.menubar.addAction(self.menuClear.menuAction())
 
+        self.action(AricmaticWindow)
+
         self.retranslateUi(AricmaticWindow)
         QtCore.QMetaObject.connectSlotsByName(AricmaticWindow)
 
@@ -147,6 +156,144 @@ class Ui_AricmaticWindow(object):
         self.actionXOR.setText(_translate("AricmaticWindow", "XOR"))
         self.actionSave_Output.setText(_translate("AricmaticWindow", "Save Output"))
 
+    def action(self, AricmaticWindow):
+        self.actionInput_1.triggered.connect(self.openFileImage1)
+        self.actionInput_2.triggered.connect(self.openFileImage2)
+        self.actionAddition.triggered.connect(self.addition)
+        self.actionSubtraction.triggered.connect(self.subtract)
+        self.actionMultiplication.triggered.connect(self.multiply)
+        self.actionDivision.triggered.connect(self.division)
+        self.actionOR.triggered.connect(self.bitwise_or)
+        self.actionAND.triggered.connect(self.bitwise_and)
+        self.actionXOR.triggered.connect(self.bitwise_xor)
+
+    def openFileImage(self, target_view):
+        # Open file dialog
+        file_dialog = QtWidgets.QFileDialog()
+        file_path, _ = file_dialog.getOpenFileName(None, "Open Image File", "", "Images (*.png *.jpg *.jpeg *.bmp)")
+        
+        if file_path:
+            # Load and convert image to grayscale
+            image = cv2.imread(file_path, cv2.IMREAD_GRAYSCALE)  # Convert to grayscale
+            if image is None:
+                self.showErrorMessage("Error: Failed to load image.")
+                return None
+            
+            # Resize the grayscale image to 800x800
+            image_resized = cv2.resize(image, (800, 800))
+
+            # Save the converted image to the global variable
+            if target_view == 1:
+                self.image1 = image_resized
+            elif target_view == 2:
+                self.image2 = image_resized
+
+            # Convert resized grayscale image to QPixmap for display
+            height, width = image_resized.shape
+            bytes_per_line = width
+            q_image = QtGui.QImage(image_resized.data, width, height, bytes_per_line, QtGui.QImage.Format_Grayscale8)
+            pixmap = QtGui.QPixmap.fromImage(q_image)
+
+            # Display the image in the target view
+            scene = QtWidgets.QGraphicsScene()
+            scene.addPixmap(pixmap)
+        if target_view == 1:
+            self.photoInput1.setScene(scene)
+        elif target_view == 2:
+            self.photoInput2.setScene(scene)
+
+            file_path = file_path.replace("\\", "/")
+            print("FILE : " + file_path)
+            return file_path
+        else:
+            self.showErrorMessage("Error: Failed to load path.")
+            return None
+
+    def displayResult(self, image, target_view):
+        # Convert OpenCV image (which is in numpy array format) to QImage
+        height, width = image.shape
+        bytes_per_line = width
+        q_image = QtGui.QImage(image.data, width, height, bytes_per_line, QtGui.QImage.Format_Grayscale8)
+
+        # Convert QImage to QPixmap for displaying in QGraphicsView
+        pixmap = QtGui.QPixmap.fromImage(q_image)
+        scene = QtWidgets.QGraphicsScene()
+        scene.addPixmap(pixmap)
+
+        # Set the scene in the target QGraphicsView (e.g., photoOutput)
+        target_view.setScene(scene)
+
+    def showErrorMessage(self, message):
+        # Display error message in a message box
+        error_message = QtWidgets.QMessageBox()
+        error_message.setIcon(QtWidgets.QMessageBox.Critical)
+        error_message.setText(message)
+        error_message.setWindowTitle("Error")
+        error_message.exec_()
+
+    def openFileImage1(self):
+        return self.openFileImage(1)
+
+    def openFileImage2(self):
+        return self.openFileImage(2)
+    
+    def addition(self):
+        if self.image1 is not None and self.image2 is not None:
+            addition_result = cv2.add(self.image1, self.image2)
+            cv2.imwrite(self.outputFile, addition_result)
+            self.displayResult(addition_result, self.photoOutput)
+        else:
+            self.showErrorMessage("Error: One or both images are not loaded.")
+
+    def subtract(self):
+        if self.image1 is not None and self.image2 is not None:
+            addition_result = cv2.subtract(self.image1, self.image2)
+            cv2.imwrite(self.outputFile, addition_result)
+            self.displayResult(addition_result, self.photoOutput)
+        else:
+            self.showErrorMessage("Error: One or both images are not loaded.")
+
+    def multiply(self):
+        if self.image1 is not None and self.image2 is not None:
+            addition_result = cv2.multiply(self.image1, self.image2)
+            cv2.imwrite(self.outputFile, addition_result)
+            self.displayResult(addition_result, self.photoOutput)
+        else:
+            self.showErrorMessage("Error: One or both images are not loaded.")
+
+    def division(self):
+        if self.image1 is not None and self.image2 is not None:
+            with np.errstate(divide='ignore', invalid='ignore'):
+                division_result = cv2.divide(self.image1.astype('float'), self.image2.astype('float'))
+                division_result = np.nan_to_num(division_result).astype('uint8')
+            cv2.imwrite(self.outputFile, division_result)
+            self.displayResult(division_result, self.photoOutput)
+        else:
+            self.showErrorMessage("Error: One or both images are not loaded.")
+
+    def bitwise_or(self):
+        if self.image1 is not None and self.image2 is not None:
+            addition_result = cv2.bitwise_or(self.image1, self.image2)
+            cv2.imwrite(self.outputFile, addition_result)
+            self.displayResult(addition_result, self.photoOutput)
+        else:
+            self.showErrorMessage("Error: One or both images are not loaded.")
+
+    def bitwise_and(self):
+        if self.image1 is not None and self.image2 is not None:
+            addition_result = cv2.bitwise_and(self.image1, self.image2)
+            cv2.imwrite(self.outputFile, addition_result)
+            self.displayResult(addition_result, self.photoOutput)
+        else:
+            self.showErrorMessage("Error: One or both images are not loaded.")
+
+    def bitwise_xor(self):
+        if self.image1 is not None and self.image2 is not None:
+            addition_result = cv2.bitwise_xor(self.image1, self.image2)
+            cv2.imwrite(self.outputFile, addition_result)
+            self.displayResult(addition_result, self.photoOutput)
+        else:
+            self.showErrorMessage("Error: One or both images are not loaded.")
 
 if __name__ == "__main__":
     import sys

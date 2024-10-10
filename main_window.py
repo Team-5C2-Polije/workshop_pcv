@@ -970,6 +970,7 @@ class Ui_MainWindow(object):
 
     def on_aricmatic_window_close(self, event):
         print('hi')
+        self.showToOutput("Aritmatic")
         event.accept()
         
 
