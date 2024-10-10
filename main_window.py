@@ -12,6 +12,7 @@ from logic.menu_geometrik import MenuGeometrik
 from logic.menu_segmentasi import MenuSegmentasi
 from logic.menu_morfologi import MenuMorfologi
 from logic.menu_edge_detection import MenuEdgeDetection
+from logic.menu_feature_extract import MenuFeatureExtract
 from dialog_tentang import Ui_DialogAbout
 from dialog_translate_image import Ui_TranslateImage
 from dialog_factor_linear import Ui_DialogFactorLinear
@@ -595,6 +596,9 @@ class Ui_MainWindow(object):
         self.actionCanny.triggered.connect(self.canny)
         # aricmatic
         self.menuAritmetical_Operation.aboutToShow.connect(self.show_aricmatic_dialog)
+        # extract
+        self.actionColor.triggered.connect(self.extract_color)
+        self.actionTexture.triggered.connect(self.extract_texture)
 
     # digunakan untuk menampilkan gambar hasil processing ke output
     def showToOutput(self, actionName):
@@ -972,6 +976,20 @@ class Ui_MainWindow(object):
         print('hi')
         self.showToOutput("Aritmatic")
         event.accept()
+
+    def extract_color(self):
+        folder_path = QtWidgets.QFileDialog.getExistingDirectory(None, "Select Folder")
+        if folder_path:
+            MenuFeatureExtract.color(folder_path)
+        else:
+            print("No folder selected.")
+
+    def extract_texture(self):
+        folder_path = QtWidgets.QFileDialog.getExistingDirectory(None, "Select Folder")
+        if folder_path:
+            MenuFeatureExtract.texture(folder_path)
+        else:
+            print("No folder selected.")
         
 
 if __name__ == "__main__":
