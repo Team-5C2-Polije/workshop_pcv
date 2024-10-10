@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1254</width>
+    <height>444</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QGraphicsView" name="photoInput1">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>50</y>
+      <width>391</width>
+      <height>341</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="photoInput2">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>50</y>
+      <width>391</width>
+      <height>341</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="photoOutput">
+    <property name="geometry">
+     <rect>
+      <x>840</x>
+      <y>50</y>
+      <width>391</width>
+      <height>341</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>381</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Input 1</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>20</y>
+      <width>381</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Input 2</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>840</x>
+      <y>20</y>
+      <width>381</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Output</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1254</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <widget class="QMenu" name="menuOpen">
+     <property name="title">
+      <string>Open</string>
+     </property>
+     <addaction name="actionInput_1"/>
+     <addaction name="actionInput_2"/>
+    </widget>
+    <widget class="QMenu" name="menuClear_2">
+     <property name="title">
+      <string>Clear</string>
+     </property>
+     <addaction name="actionClear_All"/>
+     <addaction name="actionClear_Image1"/>
+     <addaction name="actionClear_Image2"/>
+    </widget>
+    <addaction name="menuOpen"/>
+    <addaction name="menuClear_2"/>
+    <addaction name="actionSave_Output"/>
+   </widget>
+   <widget class="QMenu" name="menuAritmatika">
+    <property name="title">
+     <string>Aritmatika 0perations</string>
+    </property>
+    <addaction name="actionAddition"/>
+    <addaction name="actionSubtraction"/>
+    <addaction name="actionMultiplication"/>
+    <addaction name="actionDivision"/>
+   </widget>
+   <widget class="QMenu" name="menu0perations">
+    <property name="title">
+     <string>Logical 0perations</string>
+    </property>
+    <addaction name="actionOR"/>
+    <addaction name="actionAND"/>
+    <addaction name="actionXOR"/>
+   </widget>
+   <widget class="QMenu" name="menuClear">
+    <property name="title">
+     <string> </string>
+    </property>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuAritmatika"/>
+   <addaction name="menu0perations"/>
+   <addaction name="menuClear"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionImage_1">
+   <property name="text">
+    <string>Image 1</string>
+   </property>
+  </action>
+  <action name="actionImage_2">
+   <property name="text">
+    <string>Image 2</string>
+   </property>
+  </action>
+  <action name="actionClear_Image_1">
+   <property name="text">
+    <string>Clear Image 1</string>
+   </property>
+  </action>
+  <action name="actionClear_Image_2">
+   <property name="text">
+    <string>Clear Image 2</string>
+   </property>
+  </action>
+  <action name="actionInput_1">
+   <property name="text">
+    <string>Input 1</string>
+   </property>
+  </action>
+  <action name="actionInput_2">
+   <property name="text">
+    <string>Input 2</string>
+   </property>
+  </action>
+  <action name="actionClear_All">
+   <property name="text">
+    <string>Clear All</string>
+   </property>
+  </action>
+  <action name="actionClear_Image1">
+   <property name="text">
+    <string>Clear Image 1</string>
+   </property>
+  </action>
+  <action name="actionClear_Image2">
+   <property name="text">
+    <string>Clear Image 2</string>
+   </property>
+  </action>
+  <action name="actionAddition">
+   <property name="text">
+    <string>Addition</string>
+   </property>
+  </action>
+  <action name="actionSubtraction">
+   <property name="text">
+    <string>Subtraction</string>
+   </property>
+  </action>
+  <action name="actionMultiplication">
+   <property name="text">
+    <string>Multiplication</string>
+   </property>
+  </action>
+  <action name="actionDivision">
+   <property name="text">
+    <string>Division</string>
+   </property>
+  </action>
+  <action name="actionOR">
+   <property name="text">
+    <string>OR</string>
+   </property>
+  </action>
+  <action name="actionAND">
+   <property name="text">
+    <string>AND</string>
+   </property>
+  </action>
+  <action name="actionXOR">
+   <property name="text">
+    <string>XOR</string>
+   </property>
+  </action>
+  <action name="actionSave_Output">
+   <property name="text">
+    <string>Save Output</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

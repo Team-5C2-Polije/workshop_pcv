@@ -262,6 +262,7 @@
     </property>
     <addaction name="actionPrewitt"/>
     <addaction name="actionSebel"/>
+    <addaction name="actionCanny"/>
    </widget>
    <widget class="QMenu" name="menuMorfologi">
     <property name="title">
@@ -576,7 +577,7 @@
   </action>
   <action name="actionSebel">
    <property name="text">
-    <string>Sebel</string>
+    <string>Sobel</string>
    </property>
   </action>
   <action name="actionErosionSquare_3">
@@ -762,6 +763,11 @@
   <action name="actionPrune_Skeleton">
    <property name="text">
     <string>Prune Skeleton</string>
+   </property>
+  </action>
+  <action name="actionCanny">
+   <property name="text">
+    <string>Canny</string>
    </property>
   </action>
  </widget>

@@ -300,6 +300,8 @@ class Ui_MainWindow(object):
         self.actionSkeleton.setObjectName("actionSkeleton")
         self.actionPrune_Skeleton = QtWidgets.QAction(MainWindow)
         self.actionPrune_Skeleton.setObjectName("actionPrune_Skeleton")
+        self.actionCanny = QtWidgets.QAction(MainWindow)
+        self.actionCanny.setObjectName("actionCanny")
         self.menuFile.addAction(self.actionOpen)
         self.menuFile.addAction(self.actionSaveAs)
         self.menuFile.addAction(self.actionClearImage)
@@ -356,6 +358,7 @@ class Ui_MainWindow(object):
         self.menuFilter.addAction(self.actionBandstop_Filter)
         self.menuEdge_Detection_2.addAction(self.actionPrewitt)
         self.menuEdge_Detection_2.addAction(self.actionSebel)
+        self.menuEdge_Detection_2.addAction(self.actionCanny)
         self.menuErosion.addAction(self.actionErosionSquare_3)
         self.menuErosion.addAction(self.actionErosionSquare_5)
         self.menuErosion.addAction(self.actionErosionCross_3)
@@ -479,7 +482,7 @@ class Ui_MainWindow(object):
         self.actionGaussian_Blur_3x3.setText(_translate("MainWindow", "Gaussian Blur 3x3"))
         self.actionGaussian_Blur_3x5.setText(_translate("MainWindow", "Gaussian Blur 3x5"))
         self.actionPrewitt.setText(_translate("MainWindow", "Prewitt"))
-        self.actionSebel.setText(_translate("MainWindow", "Sebel"))
+        self.actionSebel.setText(_translate("MainWindow", "Sobel"))
         self.actionErosionSquare_3.setText(_translate("MainWindow", "Square 3"))
         self.actionErosionSquare_5.setText(_translate("MainWindow", "Square 5"))
         self.actionErosionCross_3.setText(_translate("MainWindow", "Cross 3"))
@@ -517,6 +520,8 @@ class Ui_MainWindow(object):
         self.actionThinned.setText(_translate("MainWindow", "Thinned"))
         self.actionSkeleton.setText(_translate("MainWindow", "Skeleton"))
         self.actionPrune_Skeleton.setText(_translate("MainWindow", "Prune Skeleton"))
+        self.actionCanny.setText(_translate("MainWindow", "Canny"))
+
 
     # semua aksi pada window
     def action(self, MainWindow):
@@ -575,6 +580,7 @@ class Ui_MainWindow(object):
         # edge detection
         self.actionSebel.triggered.connect(self.sobel)
         self.actionPrewitt.triggered.connect(self.prewit)
+        self.actionCanny.triggered.connect(self.canny)
 
     # digunakan untuk menampilkan gambar hasil processing ke output
     def showToOutput(self, actionName):
@@ -934,12 +940,16 @@ class Ui_MainWindow(object):
         self.showToOutput("Sobel")
 
     def prewit(self):
-        self.outputFile = MenuEdgeDetection.prewit(self.imageInputPath)
+        self.outputFile = MenuEdgeDetection.prewitt(self.imageInputPath)
         self.showToOutput("Prewit")
 
     def canny(self):
         self.outputFile = MenuEdgeDetection.canny(self.imageInputPath)
         self.showToOutput("Canny")
+
+    # def aritmatic(self):
+        # TODO : tampilkan dialog_aritmatika.py disini
+        # sebelumnya convert dulu dialog dialog_aritmatika.py ke dialog
         
 
 if __name__ == "__main__":

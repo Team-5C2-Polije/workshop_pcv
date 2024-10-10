@@ -11,6 +11,7 @@ from logic.menu_view import MenuView
 from logic.menu_geometrik import MenuGeometrik
 from logic.menu_segmentasi import MenuSegmentasi
 from logic.menu_morfologi import MenuMorfologi
+from logic.menu_edge_detection import MenuEdgeDetection
 from dialog_tentang import Ui_DialogAbout
 from dialog_translate_image import Ui_TranslateImage
 from dialog_factor_linear import Ui_DialogFactorLinear
@@ -80,7 +81,7 @@ class Ui_MainWindow(object):
         self.btnInputPhoto.setObjectName("btnInputPhoto")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1322, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1322, 31))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
@@ -291,6 +292,14 @@ class Ui_MainWindow(object):
         self.actionMean.setObjectName("actionMean")
         self.actionGaussian = QtWidgets.QAction(MainWindow)
         self.actionGaussian.setObjectName("actionGaussian")
+        self.actionHit_Or_Miss = QtWidgets.QAction(MainWindow)
+        self.actionHit_Or_Miss.setObjectName("actionHit_Or_Miss")
+        self.actionThinned = QtWidgets.QAction(MainWindow)
+        self.actionThinned.setObjectName("actionThinned")
+        self.actionSkeleton = QtWidgets.QAction(MainWindow)
+        self.actionSkeleton.setObjectName("actionSkeleton")
+        self.actionPrune_Skeleton = QtWidgets.QAction(MainWindow)
+        self.actionPrune_Skeleton.setObjectName("actionPrune_Skeleton")
         self.menuFile.addAction(self.actionOpen)
         self.menuFile.addAction(self.actionSaveAs)
         self.menuFile.addAction(self.actionClearImage)
@@ -359,6 +368,10 @@ class Ui_MainWindow(object):
         self.menuMorfologi.addAction(self.menuDilation.menuAction())
         self.menuMorfologi.addAction(self.menuOpening.menuAction())
         self.menuMorfologi.addAction(self.menuClosing.menuAction())
+        self.menuMorfologi.addAction(self.actionHit_Or_Miss)
+        self.menuMorfologi.addAction(self.actionThinned)
+        self.menuMorfologi.addAction(self.actionSkeleton)
+        self.menuMorfologi.addAction(self.actionPrune_Skeleton)
         self.menuFlip_Image.addAction(self.actionHorizontal)
         self.menuFlip_Image.addAction(self.actionVertical)
         self.menuGeometrics.addAction(self.actionTranslate_Image)
@@ -387,7 +400,6 @@ class Ui_MainWindow(object):
 
         # Connect actions to slots
         self.action(MainWindow)  
-
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -501,6 +513,10 @@ class Ui_MainWindow(object):
         self.actionGlobal_Thresholding.setText(_translate("MainWindow", "Global Thresholding"))
         self.actionMean.setText(_translate("MainWindow", "Mean"))
         self.actionGaussian.setText(_translate("MainWindow", "Gaussian"))
+        self.actionHit_Or_Miss.setText(_translate("MainWindow", "Hit Or Miss"))
+        self.actionThinned.setText(_translate("MainWindow", "Thinned"))
+        self.actionSkeleton.setText(_translate("MainWindow", "Skeleton"))
+        self.actionPrune_Skeleton.setText(_translate("MainWindow", "Prune Skeleton"))
 
     # semua aksi pada window
     def action(self, MainWindow):
@@ -556,6 +572,9 @@ class Ui_MainWindow(object):
         self.actionDilationCross_5.triggered.connect(self.dilate3)
         self.actionOpeningSquare_9.triggered.connect(self.opening9)
         self.actionClosingSquare_9.triggered.connect(self.closing9)
+        # edge detection
+        self.actionSebel.triggered.connect(self.sobel)
+        self.actionPrewitt.triggered.connect(self.prewit)
 
     # digunakan untuk menampilkan gambar hasil processing ke output
     def showToOutput(self, actionName):
@@ -909,6 +928,18 @@ class Ui_MainWindow(object):
     def closing9(self):
         self.outputFile = MenuMorfologi.closing(self.imageInputPath, 4)
         self.showToOutput("Square 9")
+        
+    def sobel(self):
+        self.outputFile = MenuEdgeDetection.sobel(self.imageInputPath)
+        self.showToOutput("Sobel")
+
+    def prewit(self):
+        self.outputFile = MenuEdgeDetection.prewit(self.imageInputPath)
+        self.showToOutput("Prewit")
+
+    def canny(self):
+        self.outputFile = MenuEdgeDetection.canny(self.imageInputPath)
+        self.showToOutput("Canny")
         
 
 if __name__ == "__main__":
