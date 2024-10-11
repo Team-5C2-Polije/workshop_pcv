@@ -982,18 +982,6 @@ class Ui_MainWindow(object):
         except subprocess.CalledProcessError as e:
             print(f"Error saat menjalankan dialog_artimatika.py: {e}")
 
-    # def show_aricmatic_dialog(self):
-    #     self.aricmatic_window = QtWidgets.QMainWindow()
-    #     ui = Ui_AricmaticWindow()
-    #     ui.setupUi(self.aricmatic_window)
-    #     self.aricmatic_window.closeEvent = self.on_aricmatic_window_close
-    #     self.aricmatic_window.show()
-
-    # def on_aricmatic_window_close(self, event):
-    #     print('hi')
-    #     self.showToOutput("Aritmatic")
-    #     event.accept()
-
     def extract_color(self):
         folder_path = QtWidgets.QFileDialog.getExistingDirectory(None, "Select Folder")
         if folder_path:

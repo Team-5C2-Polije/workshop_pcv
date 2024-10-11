@@ -1,4 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PIL import Image
+from PyQt5.QtWidgets import QFileDialog, QMessageBox, QAction, QApplication, QMainWindow
 import cv2
 import numpy as np
 import os
@@ -53,7 +55,7 @@ class Ui_AricmaticWindow(object):
         self.label_3.setObjectName("label_3")
         AricmaticWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(AricmaticWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1254, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1254, 31))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
@@ -110,12 +112,15 @@ class Ui_AricmaticWindow(object):
         self.actionClear_All_2.setObjectName("actionClear_All_2")
         self.actionOpen_Output_to_Photo = QtWidgets.QAction(AricmaticWindow)
         self.actionOpen_Output_to_Photo.setObjectName("actionOpen_Output_to_Photo")
+        self.actionSave_As = QtWidgets.QAction(AricmaticWindow)
+        self.actionSave_As.setObjectName("actionSave_As")
         self.menuOpen.addAction(self.actionInput_1)
         self.menuOpen.addAction(self.actionInput_2)
         self.menuOpen.addAction(self.actionOpen_Output_to_Photo)
         self.menuClear_2.addAction(self.actionClear_All_2)
         self.menuFile.addAction(self.menuOpen.menuAction())
         self.menuFile.addAction(self.menuClear_2.menuAction())
+        self.menuFile.addAction(self.actionSave_As)
         self.menuAritmatika.addAction(self.actionAddition)
         self.menuAritmatika.addAction(self.actionSubtraction)
         self.menuAritmatika.addAction(self.actionMultiplication)
@@ -163,6 +168,7 @@ class Ui_AricmaticWindow(object):
         self.actionSave_Output.setText(_translate("AricmaticWindow", "Save Output"))
         self.actionClear_All_2.setText(_translate("AricmaticWindow", "Clear All"))
         self.actionOpen_Output_to_Photo.setText(_translate("AricmaticWindow", "Open Output to Photo"))
+        self.actionSave_As.setText(_translate("AricmaticWindow", "Save As"))
 
     def action(self, AricmaticWindow):
         self.actionInput_1.triggered.connect(self.openFileImage1)
@@ -176,6 +182,7 @@ class Ui_AricmaticWindow(object):
         self.actionXOR.triggered.connect(self.bitwise_xor)
         self.actionClear_All_2.triggered.connect(self.clear_all)
         self.actionOpen_Output_to_Photo.triggered.connect(self.open_ouput_in_photo)
+        self.actionSave_As.triggered.connect(self.saveAs)
 
     def openFileImage(self, target_view):
         # Open file dialog
@@ -329,6 +336,26 @@ class Ui_AricmaticWindow(object):
                 print(f"Error saat membuka gambar: {e}")
         else:
             print(f"File {image_path} tidak ditemukan.")
+
+    # digunakan untuk menyimpan hasil output dari processing
+    def saveAs(self):
+        if not os.path.exists(self.outputFile):
+            QMessageBox.warning(None, "Warning", "Output file does not exist.")
+            return
+
+        # Open Save As dialog
+        options = QFileDialog.Options()
+        filePath, _ = QFileDialog.getSaveFileName(None, "Save Image As", "", 
+                                                "PNG Files (*.png);;JPEG Files (*.jpg);;All Files (*)", 
+                                                options=options)
+        if filePath:
+            try:
+                # Save the file to the chosen path
+                image = Image.open(self.outputFile)
+                image.save(filePath)
+                QMessageBox.information(None, "Success", "Image saved successfully.")
+            except Exception as e:
+                QMessageBox.critical(None, "Error", f"Failed to save the image: {str(e)}")
 
 if __name__ == "__main__":
     import sys
