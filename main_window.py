@@ -14,6 +14,7 @@ from logic.menu_morfologi import MenuMorfologi
 from logic.menu_edge_detection import MenuEdgeDetection
 from logic.menu_feature_extract import MenuFeatureExtract
 from logic.menu_filter import MenuFilter
+from logic.menu_color_rgb import MenuColorRGB
 from dialog_tentang import Ui_DialogAbout
 from dialog_translate_image import Ui_TranslateImage
 from dialog_factor_linear import Ui_DialogFactorLinear
@@ -609,6 +610,14 @@ class Ui_MainWindow(object):
         self.actionBandstop_Filter.triggered.connect(self.bandstop_filter)
         self.actionGaussian_Blur_3x3.triggered.connect(self.gaussian_blur_3x3)
         self.actionGaussian_Blur_3x5.triggered.connect(self.gaussian_blur_3x5)
+        # color
+        self.actionYellow.triggered.connect(self.color_kuning)
+        self.actionOrange.triggered.connect(self.color_orange)
+        self.actionCyan.triggered.connect(self.color_cyan)
+        self.actionPurple.triggered.connect(self.color_purple)
+        self.actionGrey.triggered.connect(self.color_grey)
+        self.actionChocolate.triggered.connect(self.color_coklat)
+        self.actionRed.triggered.connect(self.color_merah)
 
     # digunakan untuk menampilkan gambar hasil processing ke output
     def showToOutput(self, actionName):
@@ -1040,6 +1049,47 @@ class Ui_MainWindow(object):
         menu_filter = MenuFilter()
         self.outputFile = menu_filter.gaussian_blur_3x5(self.imageInputPath)
         self.showToOutput("gaussian blur 3x5")
+
+    def color_kuning(self):
+        menu_color = MenuColorRGB()  # Pastikan Anda membuat instance dari MenuColorRGB
+        self.outputFile = menu_color.filter_kuning(self.imageInputPath)
+        self.showToOutput("Color Yellow")
+
+    # Memanggil filter oranye
+    def color_orange(self):
+        menu_color = MenuColorRGB()
+        self.outputFile = menu_color.filter_orange(self.imageInputPath)
+        self.showToOutput("Color Orange")
+
+    # Memanggil filter cyan
+    def color_cyan(self):
+        menu_color = MenuColorRGB()
+        self.outputFile = menu_color.filter_cyan(self.imageInputPath)
+        self.showToOutput("Color Cyan")
+
+    # Memanggil filter purple
+    def color_purple(self):
+        menu_color = MenuColorRGB()
+        self.outputFile = menu_color.filter_purple(self.imageInputPath)
+        self.showToOutput("Color Purple")
+
+    # Memanggil filter grey
+    def color_grey(self):
+        menu_color = MenuColorRGB()
+        self.outputFile = menu_color.filter_grey(self.imageInputPath)
+        self.showToOutput("Color Grey")
+
+    # Memanggil filter coklat
+    def color_coklat(self):
+        menu_color = MenuColorRGB()
+        self.outputFile = menu_color.filter_coklat(self.imageInputPath)
+        self.showToOutput("Color Brown")
+
+    # Memanggil filter merah
+    def color_merah(self):
+        menu_color = MenuColorRGB()
+        self.outputFile = menu_color.filter_merah(self.imageInputPath)
+        self.showToOutput("Color Red")
 
 if __name__ == "__main__":
     import sys
