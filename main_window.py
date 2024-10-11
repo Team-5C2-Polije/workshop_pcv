@@ -13,6 +13,7 @@ from logic.menu_segmentasi import MenuSegmentasi
 from logic.menu_morfologi import MenuMorfologi
 from logic.menu_edge_detection import MenuEdgeDetection
 from logic.menu_feature_extract import MenuFeatureExtract
+from logic.menu_filter import MenuFilter
 from dialog_tentang import Ui_DialogAbout
 from dialog_translate_image import Ui_TranslateImage
 from dialog_factor_linear import Ui_DialogFactorLinear
@@ -599,6 +600,7 @@ class Ui_MainWindow(object):
         # extract
         self.actionColor.triggered.connect(self.extract_color)
         self.actionTexture.triggered.connect(self.extract_texture)
+        self.actionIdentity.triggered.connect(self.identity_filter)
 
     # digunakan untuk menampilkan gambar hasil processing ke output
     def showToOutput(self, actionName):
@@ -990,6 +992,10 @@ class Ui_MainWindow(object):
             MenuFeatureExtract.texture(folder_path)
         else:
             print("No folder selected.")
+
+    def identity_filter(self):
+       self.outputFile =  MenuFilter.identity_filter(self.imageInputPath)
+       self.showToOutput("Identity Filter")
         
 
 if __name__ == "__main__":
