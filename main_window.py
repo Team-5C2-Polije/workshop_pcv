@@ -601,6 +601,14 @@ class Ui_MainWindow(object):
         self.actionColor.triggered.connect(self.extract_color)
         self.actionTexture.triggered.connect(self.extract_texture)
         self.actionIdentity.triggered.connect(self.identity_filter)
+        self.actionSharpen.triggered.connect(self.sharpen_filter)
+        self.actionUnsharp_Masking.triggered.connect(self.unsharp_filter)
+        self.actionAverage_Filter.triggered.connect(self.average_filter)
+        self.actionLow_Pass_Filter.triggered.connect(self.low_pass_filter)
+        self.actionHight_Pass_Filter.triggered.connect(self.high_pass_filter)
+        self.actionBandstop_Filter.triggered.connect(self.bandstop_filter)
+        self.actionGaussian_Blur_3x3.triggered.connect(self.gaussian_blur_3x3)
+        self.actionGaussian_Blur_3x5.triggered.connect(self.gaussian_blur_3x5)
 
     # digunakan untuk menampilkan gambar hasil processing ke output
     def showToOutput(self, actionName):
@@ -968,16 +976,23 @@ class Ui_MainWindow(object):
         self.showToOutput("Canny")
 
     def show_aricmatic_dialog(self):
-        self.aricmatic_window = QtWidgets.QMainWindow()
-        ui = Ui_AricmaticWindow()
-        ui.setupUi(self.aricmatic_window)
-        self.aricmatic_window.closeEvent = self.on_aricmatic_window_close
-        self.aricmatic_window.show()
+        try:
+            # Menjalankan file 'python dialog_artimatika.py'
+            subprocess.run(["python", "dialog_artimatika.py"], check=True)
+        except subprocess.CalledProcessError as e:
+            print(f"Error saat menjalankan dialog_artimatika.py: {e}")
 
-    def on_aricmatic_window_close(self, event):
-        print('hi')
-        self.showToOutput("Aritmatic")
-        event.accept()
+    # def show_aricmatic_dialog(self):
+    #     self.aricmatic_window = QtWidgets.QMainWindow()
+    #     ui = Ui_AricmaticWindow()
+    #     ui.setupUi(self.aricmatic_window)
+    #     self.aricmatic_window.closeEvent = self.on_aricmatic_window_close
+    #     self.aricmatic_window.show()
+
+    # def on_aricmatic_window_close(self, event):
+    #     print('hi')
+    #     self.showToOutput("Aritmatic")
+    #     event.accept()
 
     def extract_color(self):
         folder_path = QtWidgets.QFileDialog.getExistingDirectory(None, "Select Folder")
@@ -994,9 +1009,49 @@ class Ui_MainWindow(object):
             print("No folder selected.")
 
     def identity_filter(self):
-       self.outputFile =  MenuFilter.identity_filter(self.imageInputPath)
-       self.showToOutput("Identity Filter")
-        
+        menu_filter = MenuFilter()
+        self.outputFile = menu_filter.identity_filter(self.imageInputPath)
+        self.showToOutput("Identity Filter")
+
+    def sharpen_filter(self):
+        menu_filter = MenuFilter()
+        self.outputFile = menu_filter.sharpen_filter(self.imageInputPath)
+        self.showToOutput("Sharpen Filter")
+    
+    def unsharp_filter(self):
+        menu_filter = MenuFilter()
+        self.outputFile = menu_filter.unsharp_masking(self.imageInputPath)
+        self.showToOutput("Unharpen Filter")
+
+    def average_filter(self):
+        menu_filter = MenuFilter()
+        self.outputFile = menu_filter.average_filter(self.imageInputPath)
+        self.showToOutput("Average Filter")
+
+    def low_pass_filter(self):
+        menu_filter = MenuFilter()
+        self.outputFile = menu_filter.low_pass_filter(self.imageInputPath)
+        self.showToOutput("Low Pass Filter")
+
+    def high_pass_filter(self):
+        menu_filter = MenuFilter()
+        self.outputFile = menu_filter.high_pass_filter(self.imageInputPath)
+        self.showToOutput("High Pass Filter")
+
+    def bandstop_filter(self):
+        menu_filter = MenuFilter()
+        self.outputFile = menu_filter.bandstop_filter(self.imageInputPath)
+        self.showToOutput("Bandstop Filter")
+
+    def gaussian_blur_3x3(self):
+        menu_filter = MenuFilter()
+        self.outputFile = menu_filter.gaussian_blur_3x3(self.imageInputPath)
+        self.showToOutput("gaussian blur 3x3")
+
+    def gaussian_blur_3x5(self):
+        menu_filter = MenuFilter()
+        self.outputFile = menu_filter.gaussian_blur_3x5(self.imageInputPath)
+        self.showToOutput("gaussian blur 3x5")
 
 if __name__ == "__main__":
     import sys
