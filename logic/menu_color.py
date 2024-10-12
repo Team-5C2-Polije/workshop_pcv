@@ -227,4 +227,19 @@ class MenuColor:
         plt.show()
 
         return MenuColor.outputFile
+    
+    def gamma_correction(input_image_path, gamma=1.0):
+        outputPath = ".output"
+        outputFile = rf"{outputPath}\output.png"
+        image = Image.open(input_image_path)
+        image_np = np.array(image)
+        inv_gamma = 1.0 / gamma
+        image_np = np.float32(image_np)
+        image_np = np.power(image_np / 255.0, inv_gamma) * 255.0
+        image_np = np.uint8(image_np)
+        corrected_image = Image.fromarray(image_np)
+        if not os.path.exists(outputPath):
+            os.makedirs(outputPath)
+        corrected_image.save(outputFile)
+        return outputFile
 

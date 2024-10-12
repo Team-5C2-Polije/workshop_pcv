@@ -34,4 +34,4 @@ def histogram_equalization(image_path):
 
     plt.show()
 
-histogram_equalization(r'C:\Users\Achmad Baihaqi\Pictures\PCV\gbr.jpg')
+# histogram_equalization(r'C:\Users\Achmad Baihaqi\Pictures\PCV\gbr.jpg')

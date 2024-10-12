@@ -25,7 +25,7 @@ def tampilkan_histogram_citra(image_path):
     plt.show()
 
 # direktori gambar
-image = r'C:\Users\Achmad Baihaqi\Pictures\PCV\gbr.jpg' 
+# image = r'C:\Users\Achmad Baihaqi\Pictures\PCV\gbr.jpg' 
 
 # menampilkan hiostogram
-tampilkan_histogram_citra(image)
+# tampilkan_histogram_citra(image)

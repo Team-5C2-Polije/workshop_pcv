@@ -227,5 +227,5 @@ class MenuColorRGB:
         # Mengembalikan path dari file yang disimpan
         return self.outputFile
 
-menu_color = MenuColorRGB()
-menu_color.filter_merah(r'C:\Users\Achmad Baihaqi\Pictures\PCV\anggur.jpg')
+# menu_color = MenuColorRGB()
+# menu_color.filter_merah(r'C:\Users\Achmad Baihaqi\Pictures\PCV\anggur.jpg')

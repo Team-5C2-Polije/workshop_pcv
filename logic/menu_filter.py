@@ -228,5 +228,5 @@ class MenuFilter:
 
     
 
-menu_filter = MenuFilter()
-menu_filter.identity_filter(r'C:\Users\Achmad Baihaqi\Pictures\PCV\anggur.jpg')
+# menu_filter = MenuFilter()
+# menu_filter.identity_filter(r'C:\Users\Achmad Baihaqi\Pictures\PCV\anggur.jpg')

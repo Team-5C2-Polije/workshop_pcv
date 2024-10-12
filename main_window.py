@@ -546,6 +546,7 @@ class Ui_MainWindow(object):
         self.actionAverage.triggered.connect(self.grayscale_average)
         self.actionLightness.triggered.connect(self.grayscale_lightness)
         self.actionLuminance.triggered.connect(self.grayscale_luminance)
+        self.actionGamma_Correction.triggered.connect(self.gamma_correction)
         self.actionLevel_1.triggered.connect(self.quantize_level_1)
         self.actionLevel_2.triggered.connect(self.quantize_level_2)
         self.actionLevel_3.triggered.connect(self.quantize_level_3)
@@ -598,6 +599,8 @@ class Ui_MainWindow(object):
         self.actionCanny.triggered.connect(self.canny)
         # aricmatic
         self.menuAritmetical_Operation.aboutToShow.connect(self.show_aricmatic_dialog)
+        # tentang
+        self.menuAbout.aboutToShow.connect(self.show_tentang_dialog)
         # extract
         self.actionColor.triggered.connect(self.extract_color)
         self.actionTexture.triggered.connect(self.extract_texture)
@@ -730,6 +733,10 @@ class Ui_MainWindow(object):
     def grayscale_luminance(self):
         self.outputFile = MenuColor.rgb_to_grayscale_luminance(self.imageInputPath)
         self.showToOutput("Grayscale Luminance")
+
+    def gamma_correction(self):
+        self.outputFile = MenuColor.gamma_correction(self.imageInputPath)
+        self.showToOutput("Gamma Correction")
 
     def show_dialog_and_get_value(self, factor_type):
         """
@@ -988,6 +995,13 @@ class Ui_MainWindow(object):
         try:
             # Menjalankan file 'python dialog_artimatika.py'
             subprocess.run(["python", "dialog_artimatika.py"], check=True)
+        except subprocess.CalledProcessError as e:
+            print(f"Error saat menjalankan dialog_artimatika.py: {e}")
+
+    def show_tentang_dialog(self):
+        try:
+            # Menjalankan file 'python dialog_artimatika.py'
+            subprocess.run(["python", "dialog_tentang.py"], check=True)
         except subprocess.CalledProcessError as e:
             print(f"Error saat menjalankan dialog_artimatika.py: {e}")
 
